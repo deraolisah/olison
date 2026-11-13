@@ -86,12 +86,12 @@ export default function Home() {
       <section className="py-24 text-center">
         <div className="container-page">
           <h2>About Olison Super Stores</h2>
-          <p className="max-w-[720px] mx-auto mt-4 text-text/80">
+          <p className="max-w-180 mx-auto mt-4 text-text/80">
             We are a large scaled retail store operated on a cashier-service
             basis, selling groceries, provisions, drinks & wines, cosmetics,
             baby/dairy products, and an assortment of household items…
           </p>
-          <div className="w-full max-w-[800px] h-[220px] bg-black/5 rounded-xl mx-auto mt-8" />
+          <div className="w-full max-w-200 h-55 bg-black/5 rounded-xl mx-auto mt-8" />
         </div>
       </section>
 
@@ -100,7 +100,7 @@ export default function Home() {
 
       {/* INFO */}
       <section className="py-24">
-        <div className="container-page max-w-[1200px]">
+        <div className="container-page max-w-300">
           <h2 className="text-center">More Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
             <div className="md:text-right md:items-end flex flex-col gap-4">
