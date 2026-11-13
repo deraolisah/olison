@@ -1,0 +1,11 @@
+{
+  "name": "olison",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "cd client && npm run dev"
+  },
+  "keywords": [],
+  "author": "Nathan"
+}

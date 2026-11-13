@@ -1,0 +1,162 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap'); */
+
+/* 1. Google Fonts first */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+
+@import "tailwindcss";
+
+
+*{
+  outline: 0 none;
+  list-style: none;
+  box-sizing: border-box;
+  /* animation-duration: 300ms;
+  transition: all 300ms ease-in-out; */
+}
+
+*::selection{
+  background: var(--color-primary);
+  color: white;
+}
+
+/* TAILWIND CUSTOM CSS VARIABLES */
+@theme {
+    /* --- Colors --- */
+  --color-bg: #FEFAF1;
+  --color-bg-alt: #FEFDFB;
+  --color-text: #420235;
+  --color-primary: #EE4266;
+  --color-secondary: #FFD23F;
+  --color-accent: #540D6E;
+
+    /* --- Font families --- */
+  --font-sans: "Montserrat", sans-serif;
+  --font-serif: "Merriweather", serif;
+  --font-display: "Poppins", sans-serif;
+
+    /* --- Custom animations --- */
+  --animate-fade-in: fade-in 0.4s ease-out forwards;
+  --animate-slide-up: slide-up 0.6s ease-out forwards;
+  --animate-grow-in: grow-in 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+  --animate-toast-in: toast-in 0.3s ease-out forwards;
+
+  /* --- Keyframes MUST live inside @theme in v4 --- */
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(80px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes grow-in {
+    from { opacity: 0; transform: scale(0.4); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateX(100%); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes scroll {
+    to { transform: translateX(-50%); }
+  }
+}
+
+
+/* 4. Base layer — same as before, works unchanged */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply text-base font-sans bg-white text-text overflow-x-hidden;
+  }
+  h1 { @apply font-bold font-serif leading-tight; }
+  h2 { @apply  font-serif; }
+  h3 { @apply  font-sans; }
+  h4 { @apply  font-sans; }
+  p  { @apply leading-relaxed; }
+  button { @apply cursor-pointer; }
+}
+
+
+
+/* 5. Component layer — unchanged */
+@layer components {
+  .container-page {
+    @apply w-full max-w-[1620px] mx-auto px-5.5 md:px-[2.8em];
+  }
+
+  .cta {
+    @apply inline-flex items-center justify-center gap-2
+           bg-primary text-white font-semibold text-sm uppercase
+           tracking-wider px-5 py-2 rounded-full
+           border border-transparent cursor-pointer
+           transition-all duration-200
+           hover:bg-secondary hover:text-white;
+  }
+  .cta-2 {
+    @apply bg-transparent text-primary border-primary font-bold
+           hover:bg-transparent  hover:border-text;
+  }
+  .cta-3 {
+    @apply hover:bg-secondary ;
+  }
+
+  .input {
+    @apply w-full px-4 py-2.5 rounded-md border border-gray-300
+           bg-white text-text text-sm
+           focus:outline-none focus:ring-2 focus:ring-primary/40
+           focus:border-primary transition;
+  }
+  .label {
+    @apply block text-sm font-semibold mb-1.5;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-medium
+           rounded-md border border-gray-300  bg-white
+           hover:bg-gray-50 transition;
+  }
+  .btn-danger {
+    @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold
+           rounded-md bg-red-50 text-red-600 border border-red-200
+           hover:bg-red-100 transition;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full
+           text-xs font-semibold;
+  }
+}
+
+/* 6. Custom scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #DB1D5C, #FA9999);
+  border-radius: 80px;
+}
+::-webkit-scrollbar-thumb:hover { background: #DB1D5C; }
+
+
+
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+
