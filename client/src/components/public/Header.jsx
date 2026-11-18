@@ -76,7 +76,7 @@ export default function Header({ onMenuClick, onFilterClick }) {
           <button type="button" onClick={() => {dispatch(toggleCart()); setOpen(false); }} aria-label="Open Cart" className="relative p-2 hover:bg-gray-200 rounded-full">
               <ShoppingBag size={20} strokeWidth={1.5} />
               {count > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center">
                   {count}
                   </span>
               )}

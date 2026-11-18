@@ -8,14 +8,16 @@ export default function ProductDetail() {
   const dispatch = useDispatch();
 
   const product = useSelector((s) =>
-    s.products.items.find((p) => String(p.id) === String(id))
+    s.products.items.find(
+      (p) => String(p.id || p._id) === String(id)
+    )
   );
 
   if (!product) {
     return (
       <section className="py-24 text-center">
         <h2>Product not found</h2>
-        <Link to="/shop" className="cta mt-6 inline-flex">Back to Shop</Link>
+        <Link to="/" className="cta mt-6 inline-flex">Back to Shop</Link>
       </section>
     );
   }
@@ -29,10 +31,13 @@ export default function ProductDetail() {
     <section className="py-20">
       <div className="container-page grid grid-cols-1 md:grid-cols-2 gap-12 max-w-275">
         <img
-          src={product.image}
+          src={product.productImage || product.image || "/img/placeholder.png"}
           alt={product.name}
-          className="w-full h-105 object-cover rounded-xl bg-gray-100"
-          onError={(e) => (e.target.src = "/img/placeholder.png")}
+          className="h-105 w-full rounded-xl bg-gray-100 object-cover"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "/img/placeholder.png";
+          }}
         />
 
         <div>
@@ -48,7 +53,7 @@ export default function ProductDetail() {
 
           <div className="mt-8 flex flex-wrap gap-3">
             <button className="cta" onClick={onAdd}>Add to Cart</button>
-            <Link to="/shop" className="btn-ghost">← Back to Shop</Link>
+            <Link to="/" className="btn-ghost">← Back to Shop</Link>
           </div>
         </div>
       </div>

@@ -1,10 +1,9 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
-  Package,
   Sparkles,
+  Package,
 } from "lucide-react";
 
 const formatPrice = (price) =>
@@ -14,29 +13,23 @@ const formatPrice = (price) =>
     maximumFractionDigits: 0,
   }).format(Number(price) || 0);
 
-const formatCategory = (category) =>
-  (category || "General").replaceAll("_", " ");
-
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onQuickView }) {
   const [imageError, setImageError] = useState(false);
 
   if (!product) return null;
 
   const {
-    id,
-    _id,
     name,
     price,
     category,
     stock,
+    productImage,
     image,
     featured,
     imageRatio,
   } = product;
 
-  const productId = id || _id;
-  const productUrl = productId ? `/product/${productId}` : "/shop";
-
+  const imageSrc = productImage || image;
   const quantity = Number(stock) || 0;
   const inStock = quantity > 0;
   const lowStock = quantity > 0 && quantity <= 5;
@@ -48,16 +41,19 @@ export default function ProductCard({ product }) {
         ? "aspect-[5/4]"
         : "aspect-square";
 
+  const openProduct = () => onQuickView?.(product);
+
   return (
-    <article className="product-card group mb-4 break-inside-avoid">
-      {/* IMAGE */}
-      <Link
-        to={productUrl}
-        className={`product-card-image relative block ${imageAspect}`}
+    <article className="product-card group mb-0 break-inside-avoid">
+      <button
+        type="button"
+        onClick={openProduct}
+        aria-label={`Quick view ${name || "product"}`}
+        className={`product-card-image relative block w-full text-left ${imageAspect}`}
       >
-        {image && !imageError ? (
+        {imageSrc && !imageError ? (
           <img
-            src={image}
+            src={imageSrc}
             alt={name || "Olison product"}
             loading="lazy"
             decoding="async"
@@ -70,10 +66,8 @@ export default function ProductCard({ product }) {
           </div>
         )}
 
-        {/* IMAGE OVERLAY */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-        {/* FEATURED BADGE */}
         {featured && (
           <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm backdrop-blur">
             <Sparkles size={11} />
@@ -81,7 +75,6 @@ export default function ProductCard({ product }) {
           </span>
         )}
 
-        {/* STOCK BADGE */}
         {!inStock && (
           <span className="absolute right-3 top-3 rounded-full bg-black/75 px-3 py-1.5 text-[10px] font-semibold text-white backdrop-blur">
             Sold out
@@ -94,17 +87,15 @@ export default function ProductCard({ product }) {
           </span>
         )}
 
-        {/* VIEW ACTION */}
         <span className="absolute bottom-3 right-3 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-white text-text opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
           <ArrowUpRight size={19} />
         </span>
-      </Link>
+      </button>
 
-      {/* PRODUCT DETAILS */}
-      <div className="px-1 pb-2 pt-3">
+      <div className="px-2 pb-2 pt-3">
         <div className="mb-1.5 flex items-center justify-between gap-2">
-          <span className="truncate text-[10px] font-bold uppercase tracking-[1.2px] text-muted sm:text-[11px]">
-            {formatCategory(category)}
+          <span className="truncate text-[9px] font-normal uppercase tracking-[1.2px] text-muted sm:text-[10px]">
+            {(category || "General").replaceAll("_", " ")}
           </span>
 
           {inStock && !lowStock && (
@@ -114,24 +105,20 @@ export default function ProductCard({ product }) {
           )}
         </div>
 
-        <Link to={productUrl}>
+        <button
+          type="button"
+          onClick={openProduct}
+          className="block w-full text-left"
+        >
           <h3 className="line-clamp-2 text-[13px] font-semibold leading-snug text-text transition-colors group-hover:text-primary sm:text-sm">
             {name || "Unnamed Product"}
           </h3>
-        </Link>
+        </button>
 
-        <div className="mt-2 flex items-center justify-between gap-2">
-          <p className="text-sm font-bold tracking-tight text-text sm:text-base">
+        <div className="mt-1 flex items-center justify-between gap-2">
+          <p className="text-sm font-normal tracking-tight text-text sm:text-base">
             {formatPrice(price)}
           </p>
-
-          <Link
-            to={productUrl}
-            aria-label={`View ${name || "product"}`}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-text transition hover:bg-primary hover:text-white"
-          >
-            <ArrowUpRight size={15} />
-          </Link>
         </div>
       </div>
     </article>

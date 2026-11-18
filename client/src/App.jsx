@@ -14,7 +14,7 @@ import AdminLayout from "./layouts/AdminLayout";
 // 
 import Home from "./pages/public/Home";
 import About from "./pages/public/About";
-import Shop from "./pages/public/Shop";
+// import Shop from "./pages/public/Shop";
 import Contact from "./pages/public/Contact";
 import ProductDetail from "./pages/public/ProductDetail";
 import Checkout from "./pages/Checkout";
@@ -37,7 +37,7 @@ export default function App() {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/shop" element={<Shop />} />
+        {/* <Route path="/shop" element={<Shop />} /> */}
         <Route path="/contact" element={<Contact />} />
       </Route>
 

@@ -1,7 +1,7 @@
 
 import ProductCard from "./ProductCard";
 
-export default function ProductMasonry({ products = [], columns = 4 }) {
+export default function ProductMasonry({ products = [], columns = 4, onQuickView }) {
   if (!products.length) return null;
 
   return (
@@ -14,7 +14,7 @@ export default function ProductMasonry({ products = [], columns = 4 }) {
           key={product.id || product._id}
           className="product-masonry-item"
         >
-          <ProductCard product={product} />
+          <ProductCard product={product} onQuickView={onQuickView} />
         </div>
       ))}
     </div>

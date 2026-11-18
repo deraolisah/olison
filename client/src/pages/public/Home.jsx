@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useOutletContext } from "react-router-dom";
 import {
@@ -14,6 +14,7 @@ import {
   selectFilteredProducts,
 } from "../../redux/slices/productsSlice";
 
+import ProductQuickView from "../../components/public/ProductQuickView";
 import ProductMasonry from "../../components/public/ProductMasonry";
 import FilterPanel from "../../components/public/FilterPanel";
 
@@ -39,8 +40,17 @@ export default function Home() {
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const loadMoreRef = useRef(null);
+
+  const handleQuickView = useCallback((product) => {
+    setSelectedProduct(product);
+  }, []);
+
+  const closeQuickView = useCallback(() => {
+    setSelectedProduct(null);
+  }, []);
 
   useEffect(() => {
     if (status === "idle") {
@@ -303,6 +313,7 @@ export default function Home() {
           <ProductMasonry
             products={visibleProducts}
             columns={filters.columns}
+            onQuickView={handleQuickView}
           />
 
           <div
@@ -343,6 +354,11 @@ export default function Home() {
         setFilters={setFilters}
         categories={categories}
         onReset={resetFilters}
+      />
+
+      <ProductQuickView
+        product={selectedProduct}
+        onClose={closeQuickView}
       />
     </div>
   );

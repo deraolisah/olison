@@ -1,9 +1,9 @@
-import React from 'react'
+import { Outlet } from "react-router-dom";
 
 export default function ProductLayout() {
   return (
     <div>
-      Product Layout
+      <Outlet />
     </div>
-  )
+  );
 }
