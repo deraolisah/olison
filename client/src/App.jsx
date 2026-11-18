@@ -28,7 +28,7 @@ import AdminOrders from "./pages/admin/AdminOrders";
 
 
 // Notfound
-import NotFound from "./pages/NotFound.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx";
 
 export default function App() {
   return (
@@ -70,7 +70,7 @@ export default function App() {
       </Route>
 
 
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 }
