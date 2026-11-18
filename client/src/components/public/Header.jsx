@@ -74,7 +74,7 @@ export default function Header({ onMenuClick, onFilterClick }) {
           </button>
 
           <button type="button" title="Cart" onClick={() => {dispatch(toggleCart()); setOpen(false); }} aria-label="Open Cart" className="relative p-2 hover:bg-gray-200 rounded-full">
-              <ShoppingBag size={20} strokeWidth={1.5} />
+              <ShoppingBag size={20} strokeWidth={1.25} />
               {count > 0 && (
                 <span className="absolute -top-1 -right-1 bg-primary text-white text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center">
                 {count}
@@ -82,15 +82,14 @@ export default function Header({ onMenuClick, onFilterClick }) {
               )}
           </button>
 
-          <button
-            type="button"
+          <Link
+            to="/profile"
             title="Account"
-            onClick={() => navigate("/login")}
             aria-label="Customer account"
             className="p-2 hover:bg-gray-200 rounded-full"
           >
             <UserRound size={20} strokeWidth={1.5} />
-          </button>
+          </Link>
         </div>
       </div>
     </header>

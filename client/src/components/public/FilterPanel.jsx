@@ -14,7 +14,7 @@ export default function FilterPanel({
   categories,
   onReset,
 }) {
-  if (!open) return null;
+//   if (!open) return null;
 
   const update = (key, value) => {
     setFilters((current) => ({
@@ -24,17 +24,30 @@ export default function FilterPanel({
   };
 
   return (
-    <div className="fixed inset-0 z-100">
-      <button
-        type="button"
-        aria-label="Close filters"
-        onClick={onClose}
-        className="absolute inset-0 bg-black/40 "
-      />
+    <div className="fixed inset-0 z-30 md:z-100 pointer-events-none">
+        {open && (
+        <button
+            type="button"
+            aria-label="Close filters"
+            onClick={onClose}
+            className="absolute z-30 inset-0 bg-black/40 pointer-events-auto"
+        />
+        )}
 
-      <aside className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-white shadow-2xl">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-6 h-14">
+      <aside className={`
+        fixed z-30 left-1/2 -translate-x-1/2 bottom-13
+        w-full max-w-[90vw] max-h-[88vh]
+        md:absolute md:left-auto md:right-0 md:top-0
+        flex flex-col
+        md:h-full md:max-h-full md:w-full md:max-w-md
+        bg-white md:shadow-2xl
+        rounded-t-3xl md:rounded-none
+        transition-transform pointer-events-auto
+        ${open
+            ? "translate-y-0 md:translate-x-0"
+            : "translate-y-full md:translate-x-full"}
+        `}>
+        <div className="flex items-center justify-between border-b border-border px-6 min-h-14">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
               <SlidersHorizontal size={19} />
@@ -195,7 +208,7 @@ export default function FilterPanel({
                     {Array.from({ length: count * 2 }).map((_, i) => (
                       <span
                         key={i}
-                        className={`h-2 w-[5px] rounded-[2px] ${
+                        className={`h-2 w-[1.25rounded-[2px] ${
                           filters.columns === count
                             ? "bg-primary"
                             : "bg-gray-400"
@@ -235,7 +248,7 @@ export default function FilterPanel({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center gap-3 border-t border-border bg-white p-5">
+        <div className="flex items-center gap-3 border-t border-border bg-white px-5 py-4 pb-10 md:pb-4">
           <button
             onClick={onReset}
             className="btn-ghost flex flex-1 items-center justify-center gap-2"
@@ -246,7 +259,7 @@ export default function FilterPanel({
 
           <button
             onClick={onClose}
-            className="cta flex-1 justify-center"
+            className="cta flex-1 justify-center py-2.5"
           >
             Apply filters
           </button>

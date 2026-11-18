@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   selectCartTotal,
   toggleCart,
+  setCartOpen,
   removeFromCart,
   updateQuantity,
 } from "../../redux/slices/cartSlice";
@@ -19,7 +20,8 @@ const CartDrawer = () => {
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-60"
-          onClick={() => dispatch(toggleCart())}
+          // onClick={() => dispatch(toggleCart())}
+          onClick={() => dispatch(setCartOpen(false))}
         />
       )}
       <aside
@@ -30,7 +32,8 @@ const CartDrawer = () => {
         <div className="flex items-center justify-between p-5 h-14 border-b border-primary/10">
           <h3 className="text-xl font-semibold">Your Cart</h3>
           <button
-            onClick={() => dispatch(toggleCart())}
+            // onClick={() => dispatch(toggleCart())}
+            onClick={() => dispatch(setCartOpen(false))}
             className="text-2xl text-gray-400 hover:text-text"
             aria-label="Close cart"
           >
@@ -96,7 +99,8 @@ const CartDrawer = () => {
           </div>
           <Link
             to="/checkout"
-            onClick={() => dispatch(toggleCart())}
+            // onClick={() => dispatch(toggleCart())}
+            onClick={() => dispatch(setCartOpen(false))}
             className="cta w-full rounded-full py-2.5"
           >
             Checkout

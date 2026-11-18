@@ -15,7 +15,7 @@ import {
   setCartOpen,
 } from "../../redux/slices/cartSlice";
 
-export default function BottomNav({ onFilterClick }) {
+export default function BottomNav({ onFilterClick, onCartClick  }) {
   const dispatch = useDispatch();
   const cartCount = useSelector(selectCartCount);
 
@@ -36,7 +36,8 @@ export default function BottomNav({ onFilterClick }) {
       navItem: "Cart",
       icon: ShoppingBag,
       type: "button",
-      action: () => dispatch(setCartOpen(true)),
+      // action: () => dispatch(setCartOpen(true)),
+      action: onCartClick,
       badge: cartCount,
     },
     {
@@ -55,7 +56,7 @@ export default function BottomNav({ onFilterClick }) {
   return (
     <nav
       aria-label="Mobile navigation"
-      className="fixed bottom-4 left-1/2 z-50 flex w-[90%] max-w-md -translate-x-1/2 items-center justify-between rounded-full border border-border bg-white/85 px-3 py-3 shadow-lg backdrop-blur-xl md:hidden"
+      className="fixed bottom-4 left-1/2 z-50 flex w-full max-w-[90vw] -translate-x-1/2 items-center justify-between rounded-full border border-border bg-white/85 px-3 py-3 shadow-lg backdrop-blur-xl md:hidden"
     >
       {navList.map((item) => {
         const Icon = item.icon;
