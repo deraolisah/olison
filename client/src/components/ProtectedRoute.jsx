@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { selectIsAuthenticated, selectAuthRole } from "../store/slices/authSlice";
+import { selectIsAuthenticated, selectAuthRole } from "../redux/slices/authSlice";
 
 export default function ProtectedRoute({ requiredRole = "admin" }) {
   const isAuthed = useSelector(selectIsAuthenticated);

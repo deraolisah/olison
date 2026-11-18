@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   createProduct,
   updateProduct,
-} from "../../store/slices/productsSlice";
+} from "../../redux/slices/productsSlice";
 
 const categories = [
   "cosmetics", "groceries", "toiletries", "fashion", "bakery", "drinks",

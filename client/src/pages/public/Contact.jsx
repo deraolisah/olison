@@ -1,10 +1,10 @@
 export default function Contact() {
   return (
     <section className="py-24">
-      <div className="container-page max-w-[1000px]">
+      <div className="container-page max-w-250">
         <h1 className="text-center text-[3.5rem] text-primary">Visit Us</h1>
         <p className="text-center text-text/70 mt-2">
-          Come say hello — or drop us an email
+          Come say hello or drop us an email
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">

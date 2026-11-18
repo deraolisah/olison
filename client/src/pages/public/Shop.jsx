@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../store/slices/cartSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
 import {
   fetchProducts,
   selectFilteredProducts,
   setCategoryFilter,
-} from "../store/slices/productsSlice";
+} from "../../redux/slices/productsSlice";
 
 export default function Shop() {
   const [params] = useSearchParams();

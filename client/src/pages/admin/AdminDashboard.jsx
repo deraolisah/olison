@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchProducts } from "../../store/slices/productsSlice";
+import { fetchProducts } from "../../redux/slices/productsSlice";
 
-export default function Dashboard() {
+export default function AdminDashboard() {
   const dispatch = useDispatch();
   const { items, status } = useSelector((s) => s.products);
 

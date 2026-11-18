@@ -5,7 +5,7 @@ import {
   loginAdmin,
   clearAuthError,
   selectIsAuthenticated,
-} from "../../store/slices/authSlice";
+} from "../../redux/slices/authSlice";
 
 const MAX_ATTEMPTS = 5;
 const LOCK_MS = 30_000;

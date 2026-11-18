@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { selectCartTotal, clearCart } from "../store/slices/cartSlice";
+import { selectCartTotal, clearCart } from "../redux/slices/cartSlice";
 
 export default function Checkout() {
   const items = useSelector((s) => s.cart.items);
@@ -49,7 +49,7 @@ export default function Checkout() {
 
   return (
     <section className="py-20">
-      <div className="container-page grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[1100px]">
+      <div className="container-page grid grid-cols-1 md:grid-cols-2 gap-10 max-w-275">
         <form onSubmit={onSubmit} className="card space-y-4">
           <h2 className="text-2xl">Delivery Details</h2>
 

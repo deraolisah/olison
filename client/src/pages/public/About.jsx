@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import CategoryGrid from "../components/sections/CategoryGrid";
-import hero from "../assets/hero.jpg";
+import CategoryGrid from "../../components/sections/CategoryGrid";
+import hero from "../../assets/hero.jpg";
 
-import why1 from "../assets/why-1.png";
-import why2 from "../assets/why-2.png";
-import why3 from "../assets/why-3.png";
+import why1 from "../../assets/why-1.png";
+import why2 from "../../assets/why-2.png";
+import why3 from "../../assets/why-3.png";
 
 const why = [
   {
@@ -25,7 +25,7 @@ const why = [
   },
 ];
 
-export default function Home() {
+export default function About() {
   return (
     <>
       {/* HERO */}
@@ -48,7 +48,7 @@ export default function Home() {
           </p>
 
           <div className="mt-6.5 mb-10 flex flex-wrap justify-center gap-3">
-            <Link to="/shop" className="cta">Start Shopping</Link>
+            <Link to="/" className="cta">Start Shopping</Link>
             <Link to="/about" className="cta cta-2 hidden md:flex">Learn More</Link>
           </div>
 
@@ -56,7 +56,7 @@ export default function Home() {
             src={hero}
             alt="Olison Store"
             className="rounded-2xl w-full max-h-130 object-cover
-                       [mask-image:linear-gradient(white,transparent)]
+                       mask-[linear-gradient(white,transparent)]
                        [-webkit-mask-image:linear-gradient(white,transparent)]
                        border border-black/50 shadow-lg shadow-black/5
                        "
@@ -97,6 +97,19 @@ export default function Home() {
 
       {/* CATEGORIES */}
       <CategoryGrid />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
+        {[
+          { title: "Our Mission", body: "To make quality, everyday essentials accessible to every Nigerian household." },
+          { title: "Our Vision", body: "To become the most trusted retail brand in Nigeria." },
+          { title: "Our Values", body: "Integrity, quality, variety and customer-first service." },
+        ].map((c) => (
+          <div key={c.title} className="card">
+            <h3 className="text-xl font-bold mb-2">{c.title}</h3>
+            <p className="text-sm text-text/70">{c.body}</p>
+          </div>
+        ))}
+      </div>
 
       {/* INFO */}
       <section className="py-24">

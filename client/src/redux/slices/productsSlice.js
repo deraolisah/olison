@@ -63,13 +63,36 @@ const productsSlice = createSlice({
 export const { setSearch, setCategoryFilter } = productsSlice.actions;
 
 // Selectors
-export const selectFilteredProducts = (s) => {
-  const { items, searchQuery, categoryFilter } = s.products;
-  return items.filter((p) => {
-    const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchCat = categoryFilter === "all" || p.category === categoryFilter;
-    return matchSearch && matchCat;
+// export const selectFilteredProducts = (s) => {
+//   const { items, searchQuery, categoryFilter } = s.products;
+//   return items.filter((p) => {
+//     const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
+//     const matchCat = categoryFilter === "all" || p.category === categoryFilter;
+//     return matchSearch && matchCat;
+//   });
+// };
+
+
+
+export const selectFilteredProducts = (state) => {
+  const { items, searchQuery, categoryFilter } = state.products;
+
+  return items.filter((product) => {
+    const name = (product.name || "").toLowerCase();
+    const category = (product.category || "").toLowerCase();
+
+    const matchSearch = name.includes(
+      searchQuery.toLowerCase()
+    );
+
+    const matchCategory =
+      categoryFilter === "all" ||
+      category === categoryFilter.toLowerCase();
+
+    return matchSearch && matchCategory;
   });
 };
+
+
 
 export default productsSlice.reducer;

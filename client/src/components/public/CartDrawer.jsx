@@ -5,7 +5,7 @@ import {
   toggleCart,
   removeFromCart,
   updateQuantity,
-} from "../../store/slices/cartSlice";
+} from "../../redux/slices/cartSlice";
 import { X } from "lucide-react";
 
 const CartDrawer = () => {
@@ -27,7 +27,7 @@ const CartDrawer = () => {
                     shadow-xl transition-transform duration-300 flex flex-col
                     ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
-        <div className="flex items-center justify-between p-5 h-16 border-b border-primary/10">
+        <div className="flex items-center justify-between p-5 h-14 border-b border-primary/10">
           <h3 className="text-xl font-semibold">Your Cart</h3>
           <button
             onClick={() => dispatch(toggleCart())}

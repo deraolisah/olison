@@ -6,7 +6,7 @@ import {
   selectFilteredProducts,
   setSearch,
   setCategoryFilter,
-} from "../../store/slices/productsSlice";
+} from "../../redux/slices/productsSlice";
 import ProductFormModal from "../../components/admin/ProductFormModal";
 import ConfirmDialog from "../../components/admin/ConfirmDialog";
 import Toast from "../../components/admin/Toast";

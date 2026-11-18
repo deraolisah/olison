@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sessionExpired } from "../store/slices/authSlice";
+import { sessionExpired } from "../redux/slices/authSlice";
 
 export function useAuthGuard() {
   const expiresAt = useSelector((s) => s.auth.expiresAt);

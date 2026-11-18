@@ -1,162 +1,402 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+/* =====================================================
+   OLISON SUPER STORES
+   Tailwind CSS v4 - Global Design System
+===================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap'); */
-
-/* 1. Google Fonts first */
+/* 1. FONTS */
+/* @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Poppins:wght@300;400;500;600;700;800&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap");
+/* 1. Google Fonts first */
 
 
+/* 2. TAILWIND CSS */
 @import "tailwindcss";
 
 
-*{
-  outline: 0 none;
-  list-style: none;
-  box-sizing: border-box;
-  /* animation-duration: 300ms;
-  transition: all 300ms ease-in-out; */
-}
+/* =====================================================
+   3. THEME CONFIGURATION
+===================================================== */
 
-*::selection{
-  background: var(--color-primary);
-  color: white;
-}
-
-/* TAILWIND CUSTOM CSS VARIABLES */
 @theme {
-    /* --- Colors --- */
-  --color-bg: #FEFAF1;
-  --color-bg-alt: #FEFDFB;
-  --color-text: #420235;
+
+  /* BRAND COLORS */
   --color-primary: #EE4266;
+  --color-primary-dark: #D92F55;
   --color-secondary: #FFD23F;
   --color-accent: #540D6E;
+  --color-text: #25212A;
 
-    /* --- Font families --- */
+  /* BACKGROUNDS */
+  --color-bg: #FFFFFF;
+  --color-bg-alt: #F8F8FA;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F5F5F7;
+
+  /* BORDERS & MUTED TEXT */
+  --color-border: #ECECF0;
+  --color-muted: #777783;
+  --color-subtle: #A1A1AA;
+
+  /* SEMANTIC COLORS */
+  --color-success: #16A34A;
+  --color-danger: #DC2626;
+  --color-warning: #F59E0B;
+
+  /* FONT FAMILIES */
   --font-sans: "Montserrat", sans-serif;
-  --font-serif: "Merriweather", serif;
   --font-display: "Poppins", sans-serif;
+  --font-serif: "Merriweather", serif;
 
-    /* --- Custom animations --- */
+  /* SHADOWS */
+  --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.08);
+
+  /* ANIMATIONS */
   --animate-fade-in: fade-in 0.4s ease-out forwards;
-  --animate-slide-up: slide-up 0.6s ease-out forwards;
-  --animate-grow-in: grow-in 0.8s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+  --animate-slide-up: slide-up 0.5s ease-out forwards;
+  --animate-grow-in: grow-in 0.5s ease-out forwards;
   --animate-toast-in: toast-in 0.3s ease-out forwards;
 
-  /* --- Keyframes MUST live inside @theme in v4 --- */
   @keyframes fade-in {
     from { opacity: 0; }
-    to   { opacity: 1; }
+    to { opacity: 1; }
   }
+
   @keyframes slide-up {
-    from { opacity: 0; transform: translateY(80px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
+
   @keyframes grow-in {
-    from { opacity: 0; transform: scale(0.4); }
-    to   { opacity: 1; transform: scale(1); }
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
+
   @keyframes toast-in {
-    from { opacity: 0; transform: translateX(100%); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
-  @keyframes scroll {
-    to { transform: translateX(-50%); }
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 }
 
 
-/* 4. Base layer — same as before, works unchanged */
+/* =====================================================
+   4. BASE STYLES
+===================================================== */
+
 @layer base {
+
   html {
-    @apply scroll-smooth;
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
   }
+
   body {
-    @apply text-base font-sans bg-white text-text overflow-x-hidden;
+    @apply min-h-screen bg-white text-text font-sans text-base antialiased;
+    overflow-x: hidden;
   }
-  h1 { @apply font-bold font-serif leading-tight; }
-  h2 { @apply  font-serif; }
-  h3 { @apply  font-sans; }
-  h4 { @apply  font-sans; }
-  p  { @apply leading-relaxed; }
-  button { @apply cursor-pointer; }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  button:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  img {
+    @apply max-w-full;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text font-display;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-semibold leading-tight tracking-tight;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold leading-snug;
+  }
+
+  h4 {
+    @apply text-lg md:text-xl font-semibold;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply font-sans;
+  }
+
+  *::selection {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
 }
 
 
+/* =====================================================
+   5. REUSABLE COMPONENT STYLES
+===================================================== */
 
-/* 5. Component layer — unchanged */
 @layer components {
+
+  /* PAGE CONTAINER */
+
   .container-page {
-    @apply w-full max-w-[1620px] mx-auto px-5.5 md:px-[2.8em];
+    @apply w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-10;
   }
+
+
+  /* BUTTONS */
 
   .cta {
     @apply inline-flex items-center justify-center gap-2
-           bg-primary text-white font-semibold text-sm uppercase
-           tracking-wider px-5 py-2 rounded-full
-           border border-transparent cursor-pointer
-           transition-all duration-200
-           hover:bg-secondary hover:text-white;
+           bg-primary text-white font-semibold text-sm
+           px-6 py-3 rounded-xl
+           border border-transparent
+           transition-all duration-300
+           hover:bg-primary-dark hover:-translate-y-0.5
+           active:translate-y-0;
   }
+
   .cta-2 {
-    @apply bg-transparent text-primary border-primary font-bold
-           hover:bg-transparent  hover:border-text;
+    @apply bg-white text-text border border-border
+           hover:bg-bg-alt hover:border-text;
   }
+
   .cta-3 {
-    @apply hover:bg-secondary ;
+    @apply bg-secondary text-text
+           hover:bg-yellow-400;
   }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2.5 rounded-xl
+           text-sm font-semibold text-text
+           border border-border bg-white
+           hover:bg-bg-alt transition-all duration-200;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center gap-2
+           px-4 py-2.5 rounded-xl
+           text-sm font-semibold text-red-600
+           border border-red-200 bg-red-50
+           hover:bg-red-100 transition-all;
+  }
+
+
+  /* INPUTS */
 
   .input {
-    @apply w-full px-4 py-2.5 rounded-md border border-gray-300
+    @apply w-full px-4 py-3
+           rounded-xl border border-border
            bg-white text-text text-sm
-           focus:outline-none focus:ring-2 focus:ring-primary/40
-           focus:border-primary transition;
+           placeholder:text-gray-400
+           transition-all duration-200
+           focus:border-primary
+           focus:ring-4 focus:ring-primary/10;
   }
+
   .label {
-    @apply block text-sm font-semibold mb-1.5;
+    @apply block text-sm font-semibold text-text mb-2;
   }
-  .btn-ghost {
-    @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-medium
-           rounded-md border border-gray-300  bg-white
-           hover:bg-gray-50 transition;
-  }
-  .btn-danger {
-    @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold
-           rounded-md bg-red-50 text-red-600 border border-red-200
-           hover:bg-red-100 transition;
-  }
+
+
+  /* CARDS */
+
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6;
+    @apply bg-white rounded-2xl
+           border border-border
+           p-5 shadow-soft;
   }
+
+  .product-card {
+    @apply bg-white rounded-2xl
+           border border-border overflow-hidden
+           transition-all duration-300
+           hover:-translate-y-1 hover:shadow-hover;
+  }
+
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full
+    @apply inline-flex items-center
+           px-3 py-1 rounded-full
            text-xs font-semibold;
   }
+
+
+  /* STORE NAVIGATION */
+
+  .store-nav-link {
+    @apply flex items-center gap-3
+           px-3 py-3 rounded-xl
+           text-sm font-medium text-gray-600
+           transition-all duration-200
+           hover:bg-bg-alt hover:text-text;
+  }
+
+  .store-nav-active {
+    @apply bg-text text-white
+           hover:bg-text hover:text-white;
+  }
+
+
+  /* SECTION HEADINGS */
+
+  .section-heading {
+    @apply text-2xl md:text-3xl
+           font-semibold tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-sm md:text-base text-muted
+           max-w-2xl leading-relaxed;
+  }
 }
 
-/* 6. Custom scrollbar */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: transparent; }
+
+/* =====================================================
+   6. CUSTOM SCROLLBARS
+===================================================== */
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #DB1D5C, #FA9999);
-  border-radius: 80px;
+  background: #D4D4D8;
+  border-radius: 50px;
 }
-::-webkit-scrollbar-thumb:hover { background: #DB1D5C; }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
 
 
-
+/* =====================================================
+   7. UTILITY CLASSES
+===================================================== */
 
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hidden {
-  -ms-overflow-style: none; /* IE/Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.storefront-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.storefront-scrollbar::-webkit-scrollbar-thumb {
+  background: #D4D4D8;
+  border-radius: 20px;
+}
+
+.product-image {
+  @apply transition-transform duration-500;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 
+
+/* Product Masonry Layout */
+
+.product-masonry {
+  column-count: 2;
+  column-gap: 12px;
+}
+
+.product-masonry-item {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 640px) {
+  .product-masonry {
+    column-count: 3;
+    column-gap: 16px;
+  }
+
+  .product-masonry-item {
+    margin-bottom: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-masonry {
+    column-count: var(--masonry-columns, 4);
+  }
+}
+
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: white;
+  color: var(--color-text);
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 150ms ease;
+}
+
+.filter-chip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}

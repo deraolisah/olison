@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../store/slices/cartSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -27,11 +27,11 @@ export default function ProductDetail() {
 
   return (
     <section className="py-20">
-      <div className="container-page grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[1100px]">
+      <div className="container-page grid grid-cols-1 md:grid-cols-2 gap-12 max-w-275">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-[420px] object-cover rounded-xl bg-gray-100"
+          className="w-full h-105 object-cover rounded-xl bg-gray-100"
           onError={(e) => (e.target.src = "/img/placeholder.png")}
         />
 

@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { logoutAdmin, selectAuthUser } from "../../store/slices/authSlice";
-import { useAuthGuard } from "../../hooks/useAuthGuard";
+import { logoutAdmin, selectAuthUser } from "../redux/slices/authSlice";
+import { useAuthGuard } from "../hooks/useAuthGuard";
 
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: "📊", end: true },
