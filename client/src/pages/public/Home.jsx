@@ -177,7 +177,13 @@ export default function Home() {
       <section className="w-full h-32 rounded-2xl bg-gray-200 mb-4">
 
       </section>
-      <section className="flex items-center justify-between gap-2">
+
+      {/* PRODUCT COUNT */}
+      <section className="mb-4 flex items-center justify-between">
+        <p className="text-xs text-muted">
+          Showing {visibleProducts.length} of {filteredProducts.length} products
+        </p>
+
         {/* ACTIVE FILTERS */}
         {(activeFilterCount > 0 || filters.columns !== 4) && (
           <div className="mt-5 flex flex-wrap items-center gap-2">
@@ -235,33 +241,10 @@ export default function Home() {
         )}
 
 
-        <button
-          type="button"
-          onClick={() => setFiltersOpen?.(true)}
-          className="flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-medium transition hover:border-primary hover:text-primary"
-        >
-          <SlidersHorizontal size={16} />
-
-          Filters
-
-          {activeFilterCount > 0 && (
-            <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
-              {activeFilterCount}
-            </span>
-          )}
-        </button>
-      </section>
-
-      {/* PRODUCT COUNT */}
-      <div className="mb-4 flex items-center justify-between">
-        <p className="text-xs text-muted">
-          Showing {visibleProducts.length} of {filteredProducts.length} products
-        </p>
-
         <span className="text-xs text-muted">
           {filters.columns} columns
         </span>
-      </div>
+      </section>
 
       {/* LOADING */}
       {(status === "idle" || status === "loading") && (

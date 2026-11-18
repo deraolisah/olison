@@ -99,16 +99,16 @@ export default function ProductQuickView({
         </button>
 
         {/* Product image */}
-        <div className="relative min-h-[260px] bg-bg-alt sm:min-h-[360px] md:min-h-[520px] md:w-1/2">
-          {image && !imageError ? (
+        <div className="relative min-h-65 bg-bg-alt sm:min-h-90 md:min-h-130 md:w-1/2 overflow-hidden!">
+          {product.productImage && !imageError ? (
             <img
-              src={image}
+              src={product.productImage}
               alt={product.name || "Product"}
               onError={() => setImageError(true)}
               className="h-full max-h-[42vh] w-full object-contain md:absolute md:inset-0 md:max-h-none"
             />
           ) : (
-            <div className="flex h-full min-h-[260px] items-center justify-center text-muted">
+            <div className="flex h-full min-h-65 items-center justify-center text-muted">
               <Package size={60} strokeWidth={1} />
             </div>
           )}

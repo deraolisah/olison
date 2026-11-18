@@ -2,7 +2,7 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// 
+// LAYOUTS
 import PublicLayout from "./layouts/PublicLayout";
 import ProductLayout from "./layouts/ProductLayout";
 import CheckoutLayout from "./layouts/CheckoutLayout";
@@ -11,7 +11,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import AdminLayout from "./layouts/AdminLayout";
 
 
-// 
+// PUBLIC
 import Home from "./pages/public/Home";
 import About from "./pages/public/About";
 // import Shop from "./pages/public/Shop";
@@ -21,14 +21,19 @@ import Checkout from "./pages/Checkout";
 
 
 // 
+import Login from "./pages/auth/Login";
+
+// USER
+import Profile from "./pages/Profile";
+
+// ADMIN
 import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 
-
 // Notfound
-import ErrorPage from "./pages/ErrorPage.jsx";
+import ErrorPage from "./pages/ErrorPage";
 
 export default function App() {
   return (
@@ -54,7 +59,8 @@ export default function App() {
       {/* Customer account */}
       <Route element={<ProtectedRoute />}>
         <Route element={<AccountLayout />}>
-          {/* Add profile and order routes here */}
+          {/* Add profile and order routes< here */}
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Route>
 

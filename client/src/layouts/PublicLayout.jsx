@@ -33,7 +33,7 @@ export default function PublicLayout() {
 
 
       {/* Main content */}
-      <div className="min-h-screen lg:ml-67.5 flex flex-col bg-gray-100">
+      <div className="min-h-screen lg:ml-67.5 flex flex-col bg-bg-alt">
         <Header onMenuClick={() => setSidebarOpen(true)} onFilterClick={() => setFiltersOpen(true)} />
 
         <BottomNav />
