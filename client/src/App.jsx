@@ -14,7 +14,6 @@ import AdminLayout from "./layouts/AdminLayout";
 // PUBLIC
 import Home from "./pages/public/Home";
 import About from "./pages/public/About";
-// import Shop from "./pages/public/Shop";
 import Contact from "./pages/public/Contact";
 import ProductDetail from "./pages/public/ProductDetail";
 import Checkout from "./pages/Checkout";
@@ -42,7 +41,6 @@ export default function App() {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        {/* <Route path="/shop" element={<Shop />} /> */}
         <Route path="/contact" element={<Contact />} />
       </Route>
 
@@ -54,6 +52,12 @@ export default function App() {
       {/* Checkout */}
       <Route element={<CheckoutLayout />}>
         <Route path="/checkout" element={<Checkout />} />
+      </Route>
+
+      {/* Customer account */}
+      <Route element={<AccountLayout />}>
+        {/* Add profile and order routes< here */}
+        <Route path="/login" element={<Login />} />
       </Route>
 
       {/* Customer account */}

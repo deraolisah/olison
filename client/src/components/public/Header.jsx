@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -8,7 +8,7 @@ import {
   UserRound,
   SlidersHorizontal
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCartCount, toggleCart } from "../../redux/slices/cartSlice";
 
@@ -16,23 +16,60 @@ export default function Header({ onMenuClick, onFilterClick }) {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   
-    const [open, setOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+
   const count = useSelector(selectCartCount);
   const dispatch = useDispatch();
 
 
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlSearch = searchParams.get("search") || "";
+
+  // Initialize from URL, and re-sync when URL changes externally
+  useEffect(() => {
+    setSearch(urlSearch);
+  }, [urlSearch]);
+
+
   const handleSearch = (e) => {
     e.preventDefault();
-
     const query = search.trim();
-
-    if (!query) return;
-
-    navigate(`/shop?search=${encodeURIComponent(query)}`);
+    if (!query) {
+      searchParams.delete("search");
+      setSearchParams(searchParams);
+      navigate("/");
+      return;
+    }
+    searchParams.set("search", query);
+    setSearchParams(searchParams);
   };
 
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (search.trim()) {
+        searchParams.set("search", search.trim());
+      } else {
+        searchParams.delete("search");
+      }
+      setSearchParams(searchParams, { replace: true });
+    }, 350);
+    return () => clearTimeout(t);
+  }, [search]);
+
+
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+
+  //   const query = search.trim();
+
+  //   if (!query) return;
+
+  //   navigate(`/?search=${encodeURIComponent(query)}`);
+  // };
+
   return (
-    <header className="flex md:sticky top-0 z-20 h-14 items-center justify-between gap-6 px-5 sm:px-8 xl:px-10 bg-white/95 backdrop-blur-md border-b border-border">
+    <header className="flex md:sticky top-0 z-20 h-16 md:h-14 items-center justify-between gap-6 px-5 sm:px-8 xl:px-10 bg-white backdrop-blur-md border-b border-border">
       <div className="w-full flex items-center justify-between gap-3">
         {/* <button onClick={onMenuClick} aria-label="Open navigation" className="p-2 rounded-full bg-gray-200 flex md:hidden">
           <Menu size={20} strokeWidth={1.5} />
@@ -73,7 +110,7 @@ export default function Header({ onMenuClick, onFilterClick }) {
             <SlidersHorizontal size={18} strokeWidth={1.5} />
           </button>
 
-          <button type="button" title="Cart" onClick={() => {dispatch(toggleCart()); setOpen(false); }} aria-label="Open Cart" className="relative p-2 hover:bg-gray-200 rounded-full">
+          <button type="button" title="Cart" onClick={() => {dispatch(toggleCart()); }} aria-label="Open Cart" className="relative p-2 hover:bg-gray-200 rounded-full">
               <ShoppingBag size={20} strokeWidth={1.25} />
               {count > 0 && (
                 <span className="absolute -top-1 -right-1 bg-primary text-white text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center">

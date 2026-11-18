@@ -16,21 +16,33 @@ const CartDrawer = () => {
   const dispatch = useDispatch();
 
   return (
-    <>
+    <div className="fixed inset-0 z-30 md:z-100 pointer-events-none">
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-60"
+        <button
+          type="button"
+          aria-label="Close Cart"
+          className="absolute z-30 inset-0 bg-black/40 pointer-events-auto"
           // onClick={() => dispatch(toggleCart())}
           onClick={() => dispatch(setCartOpen(false))}
         />
       )}
       <aside
-        className={`fixed top-0 right-0 h-full w-full max-w-sm bg-white z-70
-                    shadow-xl transition-transform duration-300 flex flex-col
-                    ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`
+        fixed z-30 left-1/2 -translate-x-1/2 
+        w-full max-w-[90vw] max-h-[88dvh]
+        md:absolute md:left-auto md:right-0 md:top-0
+        flex flex-col
+        md:h-full md:max-h-full md:w-full md:max-w-md
+        bg-white md:shadow-2xl
+        rounded-4xl rounded-t-3xl md:rounded-none
+        transition-transform pointer-events-auto
+                    ${isOpen
+            ? "translate-y-0 md:translate-x-0 bottom-4"
+            : "translate-y-full md:translate-x-full bottom-0"}
+        `}
       >
-        <div className="flex items-center justify-between p-5 h-14 border-b border-primary/10">
-          <h3 className="text-xl font-semibold">Your Cart</h3>
+        <div className="flex items-center justify-between px-5 h-14 border-b border-primary/10">
+          <h3 className="text-xl font-semibold"> Cart </h3>
           <button
             // onClick={() => dispatch(toggleCart())}
             onClick={() => dispatch(setCartOpen(false))}
@@ -44,7 +56,7 @@ const CartDrawer = () => {
 
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {items.length === 0 && (
-            <p className="text-center text-text/50 mt-16">Cart is empty</p>
+            <p className="text-center text-text/50 my-16">Cart is empty</p>
           )}
           {items.map((i) => (
             <div key={i.id} className="flex gap-3 items-start">
@@ -92,7 +104,7 @@ const CartDrawer = () => {
           ))}
         </div>
 
-        <div className="p-5 border-t space-y-3">
+        <div className="p-4 border-t border-border space-y-3 pb-18 md:pb-4">
           <div className="flex justify-between font-semibold">
             <span>Total</span>
             <span className="text-primary">₦{total.toLocaleString()}</span>
@@ -107,7 +119,7 @@ const CartDrawer = () => {
           </Link>
         </div>
       </aside>
-    </>
+    </div>
   );
 }
 

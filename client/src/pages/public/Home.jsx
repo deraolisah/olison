@@ -1,7 +1,7 @@
 
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useSearchParams, useOutletContext } from "react-router-dom";
 import {
   RefreshCw,
   ShoppingBag,
@@ -42,6 +42,9 @@ export default function Home() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   const loadMoreRef = useRef(null);
 
   const handleQuickView = useCallback((product) => {
@@ -73,6 +76,16 @@ export default function Home() {
   // Apply homepage filters and sorting.
   const filteredProducts = useMemo(() => {
     let result = [...products];
+
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.name?.toLowerCase().includes(q) ||
+          p.description?.toLowerCase().includes(q) ||
+          p.category?.toLowerCase().includes(q)
+      );
+    }
 
     if (filters.featuredOnly) {
       result = result.filter((product) => product.featured);
@@ -128,12 +141,12 @@ export default function Home() {
     }
 
     return result;
-  }, [products, filters]);
+  }, [products, filters, searchQuery]);
 
   // Reset progressive display when filters change.
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [filters, products]);
+  }, [filters, products, searchQuery]);
 
   // Reveal more of the already-fetched products near the bottom.
   useEffect(() => {
@@ -161,6 +174,12 @@ export default function Home() {
 
   const resetFilters = () => {
     setFilters(DEFAULT_FILTERS);
+
+    if (searchQuery) {
+      const next = new URLSearchParams(searchParams);
+      next.delete("search");
+      setSearchParams(next, { replace: true });
+    }
   };
 
   const activeFilterCount = [
@@ -171,6 +190,8 @@ export default function Home() {
     filters.maxPrice !== "",
     filters.sort !== "default",
   ].filter(Boolean).length;
+
+  const hasActiveChips = activeFilterCount > 0 || filters.columns !== 4 || Boolean(searchQuery);
 
   return (
     <div className="container-page py-4 md:py-8">
@@ -185,8 +206,8 @@ export default function Home() {
         </p>
 
         {/* ACTIVE FILTERS */}
-        {(activeFilterCount > 0 || filters.columns !== 4) && (
-          <div className="mt-5 flex flex-wrap items-center gap-2">
+        {hasActiveChips && (
+          <div className="mt-0 flex flex-wrap items-center gap-2">
             {filters.featuredOnly && (
               <button
                 onClick={() =>
@@ -231,6 +252,19 @@ export default function Home() {
               </button>
             )}
 
+            {searchQuery && (
+              <button
+                onClick={() => {
+                  const next = new URLSearchParams(searchParams);
+                  next.delete("search");
+                  setSearchParams(next);
+                }}
+                className="filter-chip"
+              >
+                “{searchQuery}” <X size={12} />
+              </button>
+            )}
+
             <button
               onClick={resetFilters}
               className="text-xs font-medium text-primary hover:underline"
@@ -241,9 +275,9 @@ export default function Home() {
         )}
 
 
-        <span className="text-xs text-muted">
+        {/* <span className="text-xs text-muted">
           {filters.columns} columns
-        </span>
+        </span> */}
       </section>
 
       {/* LOADING */}

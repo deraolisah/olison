@@ -8,7 +8,7 @@ import Header from "../components/public/Header";
 import BottomNav from "../components/public/BottomNav";
 import CartDrawer from "../components/public/CartDrawer";
 
-import { setCartOpen } from "../redux/slices/cartSlice";
+import { setCartOpen, toggleCart } from "../redux/slices/cartSlice";
 import { useLenis } from "../hooks/useLenis";
 
 export default function PublicLayout() {
@@ -36,19 +36,20 @@ export default function PublicLayout() {
       navigate("/");
     }
 
-    setFiltersOpen(true);
+    dispatch(setCartOpen(false));
+    setFiltersOpen(!filtersOpen);
   };
 
   const handleCartClick = () => {
     setFiltersOpen(false);
-    dispatch(setCartOpen(true));
+    dispatch(toggleCart());
   };
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <Sidebar open={sidebarOpen} onClose={closeSidebar} />
 
-      <div className="min-h-screen lg:ml-67.5 flex flex-col bg-gray-100">
+      <div className="min-h-screen lg:ml-67.5 flex flex-col bg-bg">
         <Header
           onMenuClick={() => setSidebarOpen(true)}
           onFilterClick={handleFilterClick}

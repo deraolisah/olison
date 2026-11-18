@@ -56,7 +56,7 @@ export default function BottomNav({ onFilterClick, onCartClick  }) {
   return (
     <nav
       aria-label="Mobile navigation"
-      className="fixed bottom-4 left-1/2 z-50 flex w-full max-w-[90vw] -translate-x-1/2 items-center justify-between rounded-full border border-border bg-white/85 px-3 py-3 shadow-lg backdrop-blur-xl md:hidden"
+      className="fixed bottom-4 left-1/2 z-50 flex w-full max-w-[90vw] -translate-x-1/2 items-center justify-between rounded-full border border-border bg-white/60 px-3 py-2 shadow-lg backdrop-blur-md md:hidden"
     >
       {navList.map((item) => {
         const Icon = item.icon;
@@ -66,6 +66,7 @@ export default function BottomNav({ onFilterClick, onCartClick  }) {
             <button
               key={item.navItem}
               type="button"
+              title={item.navItem}
               onClick={item.action}
               className={itemClass}
               aria-label={item.navItem}
@@ -89,6 +90,7 @@ export default function BottomNav({ onFilterClick, onCartClick  }) {
           <NavLink
             key={item.navItem}
             to={item.href}
+            title={item.navItem}
             end={item.href === "/"}
             className={({ isActive }) =>
               `${itemClass} ${isActive ? activeClass : ""}`
