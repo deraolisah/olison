@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function NotFound() {
+  
   return (
     <section className="py-32 text-center">
       <h1 className="text-[8rem] font-serif text-primary leading-none">404</h1>
