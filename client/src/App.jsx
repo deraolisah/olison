@@ -68,6 +68,9 @@ export default function App() {
           <Route path="/admin/orders" element={<AdminOrders />} />
         </Route>
       </Route>
+
+
+      <Route path="*" element={<Notfound />} />
     </Routes>
   );
 }
