@@ -12,7 +12,6 @@ import authRoutes from "./routes/authRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
 dotenv.config();
-await connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -59,6 +58,17 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 
+
+// Ensure database connection is established before processing requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Rate limit auth endpoints
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -82,8 +92,11 @@ app.use("/api/auth", authLimiter, authRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () =>
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
-);
+if (process.env.NODE_ENV === "development"){
+    app.listen(PORT, () => {
+        console.log(`🚀 Server running on http://localhost:${PORT}`)
+    });
+}
 
+// ⚠️ Important: Export app, do not call app.listen()
 export default app;

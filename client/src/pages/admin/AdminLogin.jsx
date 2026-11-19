@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   loginAdmin,
   clearAuthError,
@@ -194,13 +194,13 @@ export default function AdminLogin() {
             {loading ? "Signing in…" : "Sign In"}
           </button>
 
-          <p className="text-xs text-center text-text/40 pt-2 border-t">
+          {/* <p className="text-xs text-center text-text/40 pt-2 border-t">
             Demo: <b>admin@olison.com</b> / <b>admin123</b>
-          </p>
+          </p> */}
         </form>
 
         <p className="text-center mt-6 text-sm text-text/60">
-          <a href="/" className="hover:text-primary">← Back to store</a>
+          <Link to="/" className="hover:text-primary">← Back to store</Link>
         </p>
       </div>
     </div>

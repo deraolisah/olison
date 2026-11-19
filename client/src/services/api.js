@@ -1,7 +1,14 @@
 import axios from "axios";
 
+
+const API_URL = import.meta.env.PROD 
+  ? import.meta.env.VITE_API_URL_PROD 
+  : import.meta.env.VITE_API_URL_DEV;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:4000/api",
+//   baseURL: import.meta.env.VITE_API_URL || "http://localhost:4000/api",
+    // In production, use /api (same origin); in local development, still use localhost:4000
+  baseURL: API_URL,
 });
 
 // Attach JWT from Redux-persisted storage

@@ -42,7 +42,7 @@ export default function BottomNav({ onFilterClick, onCartClick  }) {
     },
     {
       navItem: "Profile",
-      href: "/profile",
+      href: "/login",
       icon: UserRound,
       type: "link",
     },
