@@ -31,6 +31,9 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 
+import Placeholder from "./pages/admin/Placeholder";
+
+
 // Notfound
 import ErrorPage from "./pages/ErrorPage";
 
@@ -76,6 +79,12 @@ export default function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
+
+          {/* // src/App.jsx — inside the AdminLayout Route */}
+          <Route path="/admin/analytics" element={<Placeholder title="Analytics" />} />
+          <Route path="/admin/customers" element={<Placeholder title="Customers" />} />
+          <Route path="/admin/categories" element={<Placeholder title="Categories" />} />
+          <Route path="/admin/settings" element={<Placeholder title="Settings" />} />
         </Route>
       </Route>
 

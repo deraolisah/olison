@@ -1,5 +1,15 @@
-import { useEffect, useState, useMemo } from "react";
+// src/pages/admin/AdminProducts.jsx
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  Plus,
+  Search,
+  LayoutGrid,
+  List,
+  Pencil,
+  Trash2,
+  Filter,
+} from "lucide-react";
 import {
   fetchProducts,
   deleteProduct,
@@ -18,9 +28,12 @@ const categories = [
 
 export default function AdminProducts() {
   const dispatch = useDispatch();
-  const { status, error, searchQuery, categoryFilter } = useSelector((s) => s.products);
+  const { status, error, searchQuery, categoryFilter } = useSelector(
+    (s) => s.products
+  );
   const products = useSelector(selectFilteredProducts);
 
+  const [view, setView] = useState("table"); // "table" | "grid"
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [deleting, setDeleting] = useState(null);
@@ -41,135 +54,267 @@ export default function AdminProducts() {
   const handleDelete = async () => {
     const id = deleting.id || deleting._id;
     const res = await dispatch(deleteProduct(id));
-    // const res = await dispatch(deleteProduct(deleting.id));
-
-    if (res.meta.requestStatus === "fulfilled") {
-      showToast("Product deleted");
-    }
+    if (res.meta.requestStatus === "fulfilled") showToast("Product deleted");
     setDeleting(null);
   };
 
-  const stats = useMemo(() => {
-    const all = useSelector ? [] : null; // placeholder
-    return null;
-  }, []);
+  const stockBadge = (stock) => {
+    if (stock > 10) return "bg-emerald-50 text-emerald-700";
+    if (stock > 0) return "bg-amber-50 text-amber-700";
+    return "bg-red-50 text-red-700";
+  };
 
   return (
-    <div className="p-8">
+    <div className="mx-auto max-w-7xl space-y-6">
       {/* Header */}
-      <header className="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-serif text-text">Products</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Manage your store inventory
+          <h1 className="text-2xl font-serif text-gray-900 sm:text-3xl">
+            Products
+          </h1>
+          <p className="mt-1 text-sm text-gray-500">
+            {products.length} products across {categories.length} categories
           </p>
         </div>
-        <button className="cta" onClick={openCreate}>
-          + Add Product
-        </button>
-      </header>
-
-      {/* Filters */}
-      <div className="flex flex-col md:flex-row gap-3 mb-6">
-        <input
-          className="input md:max-w-sm"
-          placeholder="Search products..."
-          value={searchQuery}
-          onChange={(e) => dispatch(setSearch(e.target.value))}
-        />
-        <select
-          className="input md:max-w-xs"
-          value={categoryFilter}
-          onChange={(e) => dispatch(setCategoryFilter(e.target.value))}
+        <button
+          onClick={openCreate}
+          className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition hover:bg-primary/90"
         >
-          <option value="all">All Categories</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
+          <Plus size={16} />
+          Add Product
+        </button>
       </div>
 
-      {/* Table */}
+      {/* Toolbar */}
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-gray-200 bg-white p-3">
+        {/* Search */}
+        <div className="relative flex-1 min-w-[200px]">
+          <Search
+            size={16}
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+          <input
+            className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2 pl-9 pr-3 text-sm outline-none transition focus:border-primary focus:bg-white"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => dispatch(setSearch(e.target.value))}
+          />
+        </div>
+
+        {/* Category */}
+        <div className="relative">
+          <Filter
+            size={14}
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+          />
+          <select
+            className="rounded-xl border border-gray-200 bg-gray-50 py-2 pl-8 pr-8 text-sm outline-none transition focus:border-primary focus:bg-white"
+            value={categoryFilter}
+            onChange={(e) => dispatch(setCategoryFilter(e.target.value))}
+          >
+            <option value="all">All Categories</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* View toggle */}
+        <div className="ml-auto flex items-center rounded-xl border border-gray-200 bg-gray-50 p-0.5">
+          <button
+            onClick={() => setView("table")}
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+              view === "table"
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+            aria-label="Table view"
+          >
+            <List size={14} />
+            <span className="hidden sm:inline">Table</span>
+          </button>
+          <button
+            onClick={() => setView("grid")}
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+              view === "grid"
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+            aria-label="Grid view"
+          >
+            <LayoutGrid size={14} />
+            <span className="hidden sm:inline">Grid</span>
+          </button>
+        </div>
+      </div>
+
+      {/* States */}
       {status === "loading" && (
-        <div className="text-center py-20 text-gray-400">Loading products…</div>
+        <div className="py-20 text-center text-gray-400">
+          Loading products…
+        </div>
       )}
       {status === "failed" && (
-        <div className="text-red-600 p-4 bg-red-50 rounded">{error}</div>
+        <div className="rounded-xl bg-red-50 p-4 text-red-600">{error}</div>
       )}
 
-      {status === "succeeded" && (
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500">
-              <tr>
-                <th className="px-4 py-3">Product</th>
-                <th className="px-4 py-3">Category</th>
-                <th className="px-4 py-3">Price</th>
-                <th className="px-4 py-3">Stock</th>
-                <th className="px-4 py-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {products.map((p) => (
-                <tr key={p.id || p._id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={p.productImage}
-                        alt=""
-                        className="w-12 h-12 rounded object-cover bg-gray-100"
-                        onError={(e) => { e.target.src = "/img/placeholder.png"; }}
-                      />
-                      <div>
-                        <p className="font-semibold text-text line-clamp-1">
-                          {p.name}
-                        </p>
-                        <p className="text-xs text-gray-400"> #{String(p.id || p._id).slice(0, 6)}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 capitalize">{p.category}</td>
-                  <td className="px-4 py-3 font-semibold">
-                    ₦{Number(p.price).toLocaleString()}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`badge ${
-                        p.stock > 10
-                          ? "bg-green-100 text-green-700"
-                          : p.stock > 0
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
-                    >
-                      {p.stock} in stock
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right space-x-2">
-                    <button
-                      onClick={() => openEdit(p)}
-                      className="text-primary font-medium hover:underline"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => setDeleting(p)}
-                      className="text-red-600 font-medium hover:underline"
-                    >
-                      Delete
-                    </button>
-                  </td>
+      {/* Table view */}
+      {status === "succeeded" && view === "table" && (
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-left text-[11px] uppercase tracking-wider text-gray-500">
+                <tr>
+                  <th className="px-4 py-3">Product</th>
+                  <th className="px-4 py-3">Category</th>
+                  <th className="px-4 py-3">Price</th>
+                  <th className="px-4 py-3">Stock</th>
+                  <th className="px-4 py-3 text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {products.map((p) => (
+                  <tr key={p.id || p._id} className="hover:bg-gray-50/60">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={p.productImage || p.image}
+                          alt=""
+                          className="h-11 w-11 rounded-lg bg-gray-100 object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "/img/placeholder.png";
+                          }}
+                        />
+                        <div className="min-w-0">
+                          <p className="truncate font-medium text-gray-900">
+                            {p.name}
+                          </p>
+                          <p className="text-xs text-gray-400">
+                            #{String(p.id || p._id).slice(0, 6)}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium capitalize text-gray-700">
+                        {p.category}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 font-semibold text-gray-800">
+                      ₦{Number(p.price).toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3">
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${stockBadge(p.stock)}`}
+                      >
+                        {p.stock} in stock
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex justify-end gap-1">
+                        <button
+                          onClick={() => openEdit(p)}
+                          className="rounded-lg p-2 text-gray-500 hover:bg-primary/10 hover:text-primary"
+                          aria-label="Edit"
+                        >
+                          <Pencil size={15} />
+                        </button>
+                        <button
+                          onClick={() => setDeleting(p)}
+                          className="rounded-lg p-2 text-gray-500 hover:bg-red-50 hover:text-red-600"
+                          aria-label="Delete"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {products.length === 0 && (
-            <div className="text-center py-16 text-gray-400">
+            <div className="py-16 text-center text-gray-400">
               No products match your filter.
             </div>
           )}
         </div>
+      )}
+
+      {/* Grid view */}
+      {status === "succeeded" && view === "grid" && (
+        <>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {products.map((p) => (
+              <div
+                key={p.id || p._id}
+                className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <div className="relative aspect-square overflow-hidden bg-gray-100">
+                  <img
+                    src={p.productImage || p.image}
+                    alt={p.name}
+                    className="h-full w-full object-cover transition group-hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.src = "/img/placeholder.png";
+                    }}
+                  />
+
+                  {/* Featured */}
+                  {p.featured && (
+                    <span className="absolute left-2 top-2 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow">
+                      ★ Featured
+                    </span>
+                  )}
+
+                  {/* Hover actions */}
+                  <div className="absolute inset-0 flex items-end justify-end gap-1 bg-gradient-to-t from-black/40 to-transparent p-2 opacity-0 transition group-hover:opacity-100">
+                    <button
+                      onClick={() => openEdit(p)}
+                      className="rounded-lg bg-white p-1.5 text-gray-700 shadow hover:bg-primary hover:text-white"
+                      aria-label="Edit"
+                    >
+                      <Pencil size={14} />
+                    </button>
+                    <button
+                      onClick={() => setDeleting(p)}
+                      className="rounded-lg bg-white p-1.5 text-gray-700 shadow hover:bg-red-500 hover:text-white"
+                      aria-label="Delete"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-3">
+                  <p className="line-clamp-2 text-sm font-medium text-gray-900">
+                    {p.name}
+                  </p>
+                  <p className="mt-1 text-[11px] uppercase tracking-wider text-gray-400">
+                    {p.category}
+                  </p>
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <p className="text-sm font-bold text-gray-900">
+                      ₦{Number(p.price).toLocaleString()}
+                    </p>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${stockBadge(p.stock)}`}
+                    >
+                      {p.stock}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {products.length === 0 && (
+            <div className="rounded-2xl border border-dashed border-gray-200 py-16 text-center text-gray-400">
+              No products match your filter.
+            </div>
+          )}
+        </>
       )}
 
       {/* Modals */}

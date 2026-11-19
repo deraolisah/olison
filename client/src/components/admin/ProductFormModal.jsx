@@ -149,7 +149,7 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
             className="input"
             placeholder="/img/dept/drinks.jpg"
             value={form.productImage}
-            onChange={(e) => set("image", e.target.value)}
+            onChange={(e) => set("productImage", e.target.value)}
           />
           {errors.productImage && <p className="text-xs text-red-600 mt-1">{errors.productImage}</p>}
           {form.productImage && (

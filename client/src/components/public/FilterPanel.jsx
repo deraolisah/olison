@@ -326,7 +326,7 @@ export default function FilterPanel({
           w-full max-w-[90dvw] max-h-[88dvh]
           md:left-auto md:right-0 md:top-0 md:bottom-0 md:translate-x-0
           md:max-h-none md:w-full md:max-w-sm
-          flex flex-col overflow-hidden rounded-t-2xl rounded-4xl md:rounded-none
+          flex flex-col overflow-hidden rounded-t-3xl rounded-4xl md:rounded-none
           bg-white shadow-2xl pointer-events-auto
           transition-all duration-300 ease-out
           ${open
