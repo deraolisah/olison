@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "cd client && npm run dev",
-    "server": "cd server && npm run server"
+    "server": "cd server && npm run server",
+    "push": "git add . && git commit -m \"Push\" && git push origin main"
   },
   "keywords": [],
   "author": "Nathan"
