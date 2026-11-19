@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "cd client && npm run dev",
-    "server": "cd server && npm run server",
-    "build": "cd client && npm install && npm run build"
+    "server": "cd server && npm run server"
   },
   "keywords": [],
   "author": "Nathan"
