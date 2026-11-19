@@ -39,7 +39,10 @@ export default function AdminProducts() {
   const openEdit = (p) => { setEditing(p); setModalOpen(true); };
 
   const handleDelete = async () => {
-    const res = await dispatch(deleteProduct(deleting.id));
+    const id = deleting.id || deleting._id;
+    const res = await dispatch(deleteProduct(id));
+    // const res = await dispatch(deleteProduct(deleting.id));
+
     if (res.meta.requestStatus === "fulfilled") {
       showToast("Product deleted");
     }
@@ -108,11 +111,11 @@ export default function AdminProducts() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {products.map((p) => (
-                <tr key={p.id} className="hover:bg-gray-50">
+                <tr key={p.id || p._id} className="hover:bg-gray-50">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       <img
-                        src={p.image}
+                        src={p.productImage}
                         alt=""
                         className="w-12 h-12 rounded object-cover bg-gray-100"
                         onError={(e) => { e.target.src = "/img/placeholder.png"; }}
@@ -121,7 +124,7 @@ export default function AdminProducts() {
                         <p className="font-semibold text-text line-clamp-1">
                           {p.name}
                         </p>
-                        <p className="text-xs text-gray-400">#{p.id.slice(0, 6)}</p>
+                        <p className="text-xs text-gray-400"> #{String(p.id || p._id).slice(0, 6)}</p>
                       </div>
                     </div>
                   </td>

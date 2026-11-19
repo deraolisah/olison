@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import CategoryGrid from "../../components/sections/CategoryGrid";
+import CategoryGrid from "../../components/about/CategoryGrid";
 import hero from "../../assets/hero.jpg";
 
 import why1 from "../../assets/why-1.png";
@@ -98,7 +98,7 @@ export default function About() {
       {/* CATEGORIES */}
       <CategoryGrid />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
+      <div className="container-page grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
         {[
           { title: "Our Mission", body: "To make quality, everyday essentials accessible to every Nigerian household." },
           { title: "Our Vision", body: "To become the most trusted retail brand in Nigeria." },

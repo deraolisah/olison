@@ -14,7 +14,7 @@ export default function Hero() {
           <span className="text-primary">in one place.</span>
         </motion.h1>
 
-        <p className="max-w-[690px] mx-auto mt-6 text-text/80">
+        <p className="max-w-172.5 mx-auto mt-6 text-text/80">
           Find sustainable, everyday-essentials without the hassle of hours on
           research. We put the best brands front and center.
         </p>
@@ -27,7 +27,7 @@ export default function Hero() {
         <img
           src="/img/Hero-img.jpg"
           alt="Olison Hero"
-          className="rounded-2xl w-full max-h-[520px] object-cover"
+          className="rounded-2xl w-full max-h-130 object-cover"
           onError={(e) => (e.target.style.display = "none")}
         />
       </div>

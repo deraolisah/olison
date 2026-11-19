@@ -4,6 +4,8 @@ import {
   ArrowUpRight,
   Sparkles,
   Package,
+  Dot,
+  CircleStar,
 } from "lucide-react";
 
 const formatPrice = (price) =>
@@ -49,28 +51,30 @@ export default function ProductCard({ product, onQuickView }) {
         type="button"
         onClick={openProduct}
         aria-label={`Quick view ${name || "product"}`}
-        className={`product-card-image relative block w-full text-left ${imageAspect}`}
+        className={`product-card-image relative block w-full text-left p-1 pb-0 ${imageAspect}`}
       >
         {imageSrc && !imageError ? (
-          <img
-            src={imageSrc}
-            alt={name || "Olison product"}
-            loading="lazy"
-            decoding="async"
-            onError={() => setImageError(true)}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-          />
+          <span className="relative flex rounded-xl overflow-hidden">
+            <img
+              src={imageSrc}
+              alt={name || "Olison product"}
+              loading="lazy"
+              decoding="async"
+              onError={() => setImageError(true)}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          </span>
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gray-200 text-muted">
+          <div className="relative flex h-full w-full items-center justify-center bg-gray-200 text-muted rounded-xl overflow-hidden">
             <Package size={38} strokeWidth={1.2} />
+            <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           </div>
         )}
 
-        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
         {featured && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm backdrop-blur">
-            <Sparkles size={11} />
+          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm backdrop-blur">
+            <CircleStar size={16} />
             Featured
           </span>
         )}
@@ -98,7 +102,7 @@ export default function ProductCard({ product, onQuickView }) {
         </span>
       </button>
 
-      <div className="p-2">
+      <div className="p-2 px-2.5">
         <button
           type="button"
           onClick={openProduct}
@@ -109,7 +113,7 @@ export default function ProductCard({ product, onQuickView }) {
           </h3>
         </button>
 
-        <div className="mt-1 flex items-center justify-between gap-2">
+        <div className="mt-0.5 flex items-center justify-between gap-2">
           <p className="text-sm font-normal tracking-tight text-text sm:text-base">
             {formatPrice(price)}
           </p>

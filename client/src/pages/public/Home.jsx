@@ -200,7 +200,7 @@ export default function Home() {
       </section>
 
       {/* PRODUCT COUNT */}
-      <section className="mb-4 flex items-center justify-between">
+      <section className="mb-4 flex flex-wrap gap-2 items-center justify-between">
         <p className="text-xs text-muted">
           Showing {visibleProducts.length} of {filteredProducts.length} products
         </p>

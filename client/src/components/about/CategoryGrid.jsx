@@ -31,7 +31,7 @@ export default function CategoryGrid() {
   return (
     <section className="bg-primary text-bg py-24">
       <div className="container-page">
-        <h2 className="text-center">
+        <h2 className="text-center text-white">
           Shop <span className="[WebkitTextStroke:0.4px_#FEFAF1] [WebkitTextFillColor:transparent]">by</span> Category
         </h2>
         <p className="text-center mt-2 opacity-70">Looking for something specific?</p>

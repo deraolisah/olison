@@ -49,7 +49,7 @@ export default function PublicLayout() {
     <div className="min-h-screen bg-white text-gray-900">
       <Sidebar open={sidebarOpen} onClose={closeSidebar} />
 
-      <div className="min-h-screen lg:ml-67.5 flex flex-col bg-bg">
+      <div className="min-h-screen lg:ml-67.5 flex flex-col bg-bg-alt">
         <Header
           onMenuClick={() => setSidebarOpen(true)}
           onFilterClick={handleFilterClick}

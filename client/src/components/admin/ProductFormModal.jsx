@@ -15,7 +15,7 @@ const emptyForm = {
   price: "",
   stock: "",
   category: "groceries",
-  image: "",
+  productImage: "",
   description: "",
   featured: false,
 };
@@ -34,7 +34,7 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
         price: product.price ?? "",
         stock: product.stock ?? "",
         category: product.category ?? "groceries",
-        image: product.image ?? "",
+        productImage: product.productImage ?? "",
         description: product.description ?? "",
         featured: Boolean(product.featured),
       });
@@ -48,7 +48,7 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
     if (!form.name.trim()) e.name = "Name is required";
     if (!form.price || Number(form.price) <= 0) e.price = "Price must be > 0";
     if (form.stock === "" || Number(form.stock) < 0) e.stock = "Stock can't be negative";
-    if (!form.image.trim()) e.image = "Image URL required";
+    if (!form.productImage.trim()) e.productImage = "Image URL required";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -148,13 +148,13 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
           <input
             className="input"
             placeholder="/img/dept/drinks.jpg"
-            value={form.image}
+            value={form.productImage}
             onChange={(e) => set("image", e.target.value)}
           />
-          {errors.image && <p className="text-xs text-red-600 mt-1">{errors.image}</p>}
-          {form.image && (
+          {errors.productImage && <p className="text-xs text-red-600 mt-1">{errors.productImage}</p>}
+          {form.productImage && (
             <img
-              src={form.image}
+              src={form.productImage}
               alt="preview"
               className="mt-2 w-24 h-24 object-cover rounded-lg border"
               onError={(e) => (e.target.style.display = "none")}

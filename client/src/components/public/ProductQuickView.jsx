@@ -77,7 +77,7 @@ export default function ProductQuickView({
 
   return (
     <div
-      className="fixed inset-0 z-120 flex items-end justify-center bg-black/50 backdrop-blur-sm sm:items-center sm:p-5"
+      className="fixed inset-0 z-120 flex items-end justify-center bg-black/40 sm:items-center sm:p-5 cursor-pointer"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -86,7 +86,7 @@ export default function ProductQuickView({
         role="dialog"
         aria-modal="true"
         aria-labelledby="quick-view-title"
-        className="relative flex max-h-[94dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl md:flex-row"
+        className="relative flex max-h-[90dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl md:flex-row cursor-auto"
       >
         {/* Close button */}
         <button
@@ -99,16 +99,16 @@ export default function ProductQuickView({
         </button>
 
         {/* Product image */}
-        <div className="relative min-h-65 bg-bg-alt sm:min-h-90 md:min-h-130 md:w-1/2 overflow-hidden!">
+        <div className="relative min-h-65 sm:min-h-90 md:min-h-130 md:w-1/2 overflow-hidden! p-1">
           {product.productImage && !imageError ? (
             <img
               src={product.productImage}
               alt={product.name || "Product"}
               onError={() => setImageError(true)}
-              className="h-full max-h-[42vh] w-full object-contain md:absolute md:inset-0 md:max-h-none"
+              className="h-full max-h-[40dvh] w-full object-contain md:object-cover md:absolute "
             />
           ) : (
-            <div className="flex h-full min-h-65 items-center justify-center text-muted">
+            <div className="flex h-full min-h-65 items-center justify-center bg-gray-200 text-muted rounded-t-3xl md:rounded-l-3xl md:rounded-none ">
               <Package size={60} strokeWidth={1} />
             </div>
           )}
