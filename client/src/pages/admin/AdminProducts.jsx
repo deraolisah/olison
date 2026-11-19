@@ -88,7 +88,7 @@ export default function AdminProducts() {
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-gray-200 bg-white p-3">
         {/* Search */}
-        <div className="relative flex-1 min-w-[200px]">
+        <div className="relative flex-1 min-w-50">
           <Search
             size={16}
             className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -269,7 +269,7 @@ export default function AdminProducts() {
                   )}
 
                   {/* Hover actions */}
-                  <div className="absolute inset-0 flex items-end justify-end gap-1 bg-gradient-to-t from-black/40 to-transparent p-2 opacity-0 transition group-hover:opacity-100">
+                  <div className="absolute inset-0 flex items-end justify-end gap-1 bg-linear-to-t from-black/40 to-transparent p-2 opacity-0 transition group-hover:opacity-100">
                     <button
                       onClick={() => openEdit(p)}
                       className="rounded-lg bg-white p-1.5 text-gray-700 shadow hover:bg-primary hover:text-white"

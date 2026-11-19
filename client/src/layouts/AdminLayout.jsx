@@ -83,12 +83,12 @@ export default function AdminLayout() {
       >
         {/* Logo / Brand */}
         <div className="flex h-16 items-center justify-between px-4 border-b border-white/5">
-          <Link
+          {/* <Link
             to="/admin"
             onClick={() => setMobileOpen(false)}
             className="flex items-center gap-2.5 overflow-hidden"
           >
-            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-linear-to-br from-primary to-purple-600 text-white font-bold">
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-linear-to-br from-primary to-primary-dark text-white font-bold">
               O
             </div>
             {!collapsed && (
@@ -99,6 +99,22 @@ export default function AdminLayout() {
                 </p>
               </div>
             )}
+          </Link> */}
+
+          <Link
+            to="/admin"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-2 flex-1">
+            <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center"
+          >
+              <span className="text-white text-2xl font-bold shrink-0">O</span>
+            </div>
+            <div className="flex flex-col items-start">
+              <p className="font-bold text-lg text-primary tracking-wider leading-tight uppercase">Olison</p>
+              <p className="text-[9px] tracking-wider text-subtle uppercase">
+                Super Stores
+              </p>
+            </div>
           </Link>
 
           {/* Mobile close */}

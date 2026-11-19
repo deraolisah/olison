@@ -88,7 +88,7 @@ export default function AdminDashboard() {
                   <p className="mt-1 text-[11px] text-gray-400">{s.sub}</p>
                 </div>
                 <div
-                  className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${s.tint} text-white shadow-md`}
+                  className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-linear-to-br ${s.tint} text-white shadow-md`}
                 >
                   <Icon size={19} />
                 </div>
@@ -188,7 +188,7 @@ export default function AdminDashboard() {
 
         {/* Insight side panel */}
         <div className="space-y-6">
-          <div className="rounded-2xl border border-gray-200 bg-gradient-to-br from-primary to-purple-700 p-5 text-white shadow-lg">
+          <div className="rounded-2xl border border-gray-200 bg-linear-to-br from-primary to-purple-700 p-5 text-white shadow-lg">
             <div className="mb-3 inline-flex rounded-lg bg-white/20 p-2">
               <TrendingUp size={18} />
             </div>

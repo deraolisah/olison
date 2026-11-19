@@ -88,7 +88,6 @@ export default function App() {
         </Route>
       </Route>
 
-
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
