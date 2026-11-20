@@ -230,19 +230,8 @@ export default function Home() {
           Showing {visibleProducts.length} of {filteredProducts.length} products
         </p>
 
-        <button
-          type="button"
-          title="Filter"
-          onClick={handleFilterClick}
-          aria-label="Open product filters"
-          className="flex items-center justify-center gap-1 p-2 py-1 rounded-full text-text text-xs transition hover:bg-gray-200"
-        >
-          <SlidersHorizontal size={16} strokeWidth={1.5} />
-          Filters
-        </button>
-
         {hasActiveChips && (
-          <div className="mt-0 flex flex-wrap items-center gap-2">
+          <div className="mt-0 flex flex-wrap items-center md:flex-1 gap-2">
             {filters.featuredOnly && (
               <button
                 onClick={() =>
@@ -302,8 +291,19 @@ export default function Home() {
             >
               Clear filters
             </button>
+            
           </div>
         )}
+        <button
+          type="button"
+          title="Filter"
+          onClick={handleFilterClick}
+          aria-label="Open product filters"
+          className="flex items-center justify-center gap-1 p-2.5 py-1.75 rounded-full text-text text-xs transition hover:bg-gray-200"
+        >
+          <SlidersHorizontal size={14} strokeWidth={1.5} />
+          Filters
+        </button>
       </section>
 
       {/* LOADING */}
