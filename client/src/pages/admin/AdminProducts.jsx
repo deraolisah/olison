@@ -120,7 +120,7 @@ export default function AdminProducts() {
         </div>
 
         {/* View toggle */}
-        <div className="ml-auto flex items-center rounded-xl border border-gray-200 bg-gray-50 p-0.5">
+        <div className="ml-auto flex items-center rounded-xl border border-gray-200 bg-gray-50 p-0.75">
           <button
             onClick={() => setView("table")}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition ${

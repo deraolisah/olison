@@ -20,20 +20,21 @@ import {
 
 const mainLinks = [
   { name: "Home", path: "/", icon: Home, end: true },
-  // { name: "HomePage", path: "/home", icon: Home, end: true },
-  // { name: "Shop All", path: "/shop", icon: ShoppingBag },
   { name: "About Us", path: "/about", icon: Info },
   { name: "Contact", path: "/contact", icon: Phone },
 ];
 
+// `slug` must match what's stored in the DB (lowercase).
 const categories = [
-  { name: "Groceries", icon: Package },
-  { name: "Food & Provisions", icon: Coffee },
-  { name: "Drinks & Beverages", icon: Wine },
-  { name: "Cosmetics", icon: Sparkles },
-  { name: "Baby & Dairy", icon: Baby },
-  { name: "Household Items", icon: House },
-  { name: "Personal Care", icon: Gift },
+  { name: "Groceries", slug: "groceries", icon: Package },
+  { name: "Drinks & Beverages", slug: "drinks", icon: Wine },
+  { name: "Cosmetics", slug: "cosmetics", icon: Sparkles },
+  { name: "Household Items", slug: "household", icon: House },
+  { name: "Snacks", slug: "snacks", icon: Coffee },
+  // If/when you add products for these, keep the slugs matching the DB:
+  // { name: "Food & Provisions", slug: "food", icon: Coffee },
+  // { name: "Baby & Dairy", slug: "baby", icon: Baby },
+  // { name: "Personal Care", slug: "personal-care", icon: Gift },
 ];
 
 export default function Sidebar({ open, onClose }) {
@@ -65,7 +66,7 @@ export default function Sidebar({ open, onClose }) {
         `}
       >
         {/* Logo */}
-        <div className="h-15 px-6 flex items-center justify-between border-b border-border">
+        <div className="h-14 px-6 flex items-center justify-between border-b border-border">
           <Link to="/" onClick={onClose} className="flex items-center gap-2">
             <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center">
               <span className="text-white text-2xl font-bold">O</span>
@@ -127,7 +128,7 @@ export default function Sidebar({ open, onClose }) {
               return (
                 <Link
                   key={category.name}
-                  to={`/shop?category=${encodeURIComponent(category.name)}`}
+                  to={`/?category=${encodeURIComponent(category.slug)}`}
                   onClick={onClose}
                   className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-gray-600 hover:bg-gray-100 hover:text-black transition-colors"
                 >

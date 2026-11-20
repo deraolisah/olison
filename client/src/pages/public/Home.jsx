@@ -1,8 +1,9 @@
-
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams, useOutletContext } from "react-router-dom";
 import {
+  Heart,
+  ArrowUp,
   RefreshCw,
   ShoppingBag,
   SlidersHorizontal,
@@ -18,9 +19,9 @@ import ProductQuickView from "../../components/public/ProductQuickView";
 import ProductMasonry from "../../components/public/ProductMasonry";
 import FilterPanel from "../../components/public/FilterPanel";
 
+// NOTE: category is NOT stored here — it lives in the URL.
 const DEFAULT_FILTERS = {
   featuredOnly: false,
-  category: "all",
   inStockOnly: false,
   minPrice: "",
   maxPrice: "",
@@ -35,15 +36,34 @@ export default function Home() {
 
   const products = useSelector(selectFilteredProducts);
   const { status, error } = useSelector((state) => state.products);
+  const { filtersOpen, setFiltersOpen, handleFilterClick } = useOutletContext() || {};
 
-  const { filtersOpen, setFiltersOpen } = useOutletContext() || {};
-
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
+
+  // ---- URL is the single source of truth for category ----
+  const category = searchParams.get("category") || "all";
+
+  const setCategory = useCallback(
+    (value) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (!value || value === "all") next.delete("category");
+          else next.set("category", value);
+          return next;
+        },
+        { replace: true }
+      );
+    },
+    [setSearchParams]
+  );
+
+  // ---- Everything else lives in local state ----
+  const [filters, setFilters] = useState(DEFAULT_FILTERS);
 
   const loadMoreRef = useRef(null);
 
@@ -68,7 +88,7 @@ export default function Home() {
         products
           .map((product) => product.category)
           .filter(Boolean)
-          .map((category) => category.toLowerCase())
+          .map((c) => c.toLowerCase())
       ),
     ].sort();
   }, [products]);
@@ -91,10 +111,9 @@ export default function Home() {
       result = result.filter((product) => product.featured);
     }
 
-    if (filters.category !== "all") {
+    if (category !== "all") {
       result = result.filter(
-        (product) =>
-          product.category?.toLowerCase() === filters.category
+        (product) => product.category?.toLowerCase() === category
       );
     }
 
@@ -118,40 +137,33 @@ export default function Home() {
       case "price-low":
         result.sort((a, b) => Number(a.price) - Number(b.price));
         break;
-
       case "price-high":
         result.sort((a, b) => Number(b.price) - Number(a.price));
         break;
-
       case "name":
-        result.sort((a, b) =>
-          (a.name || "").localeCompare(b.name || "")
-        );
+        result.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
         break;
-
       case "newest":
         result.sort(
           (a, b) =>
             new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
         );
         break;
-
       default:
         break;
     }
 
     return result;
-  }, [products, filters, searchQuery]);
+  }, [products, filters, searchQuery, category]);
 
   // Reset progressive display when filters change.
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [filters, products, searchQuery]);
+  }, [filters, products, searchQuery, category]);
 
   // Reveal more of the already-fetched products near the bottom.
   useEffect(() => {
     const target = loadMoreRef.current;
-
     if (!target || visibleCount >= filteredProducts.length) return;
 
     const observer = new IntersectionObserver(
@@ -166,7 +178,6 @@ export default function Home() {
     );
 
     observer.observe(target);
-
     return () => observer.disconnect();
   }, [visibleCount, filteredProducts.length]);
 
@@ -174,38 +185,62 @@ export default function Home() {
 
   const resetFilters = () => {
     setFilters(DEFAULT_FILTERS);
-
-    if (searchQuery) {
-      const next = new URLSearchParams(searchParams);
-      next.delete("search");
-      setSearchParams(next, { replace: true });
-    }
+    const next = new URLSearchParams(searchParams);
+    next.delete("search");
+    next.delete("category");
+    setSearchParams(next, { replace: true });
   };
 
   const activeFilterCount = [
     filters.featuredOnly,
-    filters.category !== "all",
+    category !== "all",
     filters.inStockOnly,
     filters.minPrice !== "",
     filters.maxPrice !== "",
     filters.sort !== "default",
   ].filter(Boolean).length;
 
-  const hasActiveChips = activeFilterCount > 0 || filters.columns !== 4 || Boolean(searchQuery);
+  const hasActiveChips =
+    activeFilterCount > 0 || filters.columns !== 4 || Boolean(searchQuery);
 
   return (
     <div className="container-page py-4 md:py-8">
-      <section className="w-full h-32 rounded-2xl bg-gray-200 mb-4">
+      <Link to="/admin" className="flex w-full min-h-34 rounded-2xl bg-gray-200 mb-4">
+        <div className="w-full flex flex-col items-center justify-center text-center px-6">
+          <span className="text-sm md:text-2xl font-semibold font-serif mb-2">
+            Everything you need in one place.
+          </span>
+          <p className="max-w-xl mx-auto text-xs leading-relaxed text-gray-500">
+            {/* Find sustainable, everyday-essentials without the hassle of hours on research.  */}
+            Find your everyday essentials and shop all your favourite
+            products in one place.
+            <span className="hidden md:inline-flex">
+              We put the best front and center. So you'd get the best items you're looking for.
+            </span>
+          </p>
+        </div>
+        {/* <p className="text-[10px] text-gray-400 mt-5 text-center">
+          © {new Date().getFullYear()} Olison Super Stores
+        </p> */}
+      </Link>
 
-      </section>
-
-      {/* PRODUCT COUNT */}
+      {/* PRODUCT COUNT + ACTIVE FILTERS */}
       <section className="mb-4 flex flex-wrap gap-2 items-center justify-between">
         <p className="text-xs text-muted">
           Showing {visibleProducts.length} of {filteredProducts.length} products
         </p>
 
-        {/* ACTIVE FILTERS */}
+        <button
+          type="button"
+          title="Filter"
+          onClick={handleFilterClick}
+          aria-label="Open product filters"
+          className="flex items-center justify-center gap-1 p-2 py-1 rounded-full text-text text-xs transition hover:bg-gray-200"
+        >
+          <SlidersHorizontal size={16} strokeWidth={1.5} />
+          Filters
+        </button>
+
         {hasActiveChips && (
           <div className="mt-0 flex flex-wrap items-center gap-2">
             {filters.featuredOnly && (
@@ -219,14 +254,12 @@ export default function Home() {
               </button>
             )}
 
-            {filters.category !== "all" && (
+            {category !== "all" && (
               <button
-                onClick={() =>
-                  setFilters((f) => ({ ...f, category: "all" }))
-                }
+                onClick={() => setCategory("all")}
                 className="filter-chip capitalize"
               >
-                {filters.category.replaceAll("_", " ")} <X size={12} />
+                {category.replaceAll("_", " ")} <X size={12} />
               </button>
             )}
 
@@ -243,9 +276,7 @@ export default function Home() {
 
             {filters.columns !== 4 && (
               <button
-                onClick={() =>
-                  setFilters((f) => ({ ...f, columns: 4 }))
-                }
+                onClick={() => setFilters((f) => ({ ...f, columns: 4 }))}
                 className="filter-chip"
               >
                 {filters.columns} columns <X size={12} />
@@ -261,7 +292,7 @@ export default function Home() {
                 }}
                 className="filter-chip"
               >
-                “{searchQuery}” <X size={12} />
+                "{searchQuery}" <X size={12} />
               </button>
             )}
 
@@ -273,11 +304,6 @@ export default function Home() {
             </button>
           </div>
         )}
-
-
-        {/* <span className="text-xs text-muted">
-          {filters.columns} columns
-        </span> */}
       </section>
 
       {/* LOADING */}
@@ -306,14 +332,10 @@ export default function Home() {
       {/* ERROR */}
       {status === "failed" && (
         <div className="rounded-2xl bg-bg-alt py-16 text-center">
-          <h3 className="text-lg font-semibold">
-            Unable to load products
-          </h3>
-
+          <h3 className="text-lg font-semibold">Unable to load products</h3>
           <p className="mt-2 text-sm text-muted">
             {error || "Something went wrong. Please try again."}
           </p>
-
           <button
             onClick={() => dispatch(fetchProducts())}
             className="cta mt-5"
@@ -341,6 +363,14 @@ export default function Home() {
               ? "Loading more products..."
               : "You've reached the end of the collection."}
           </div>
+
+          <button
+            onClick={() => scrollTo(0, 0)}
+            className="text-sm text-center mx-auto flex items-center justify-center gap-1 hover:text-muted"
+          >
+            Back to top
+            <ArrowUp size={14} strokeWidth={1.5} />
+          </button>
         </>
       )}
 
@@ -348,15 +378,10 @@ export default function Home() {
       {status === "succeeded" && filteredProducts.length === 0 && (
         <div className="rounded-2xl bg-bg-alt py-20 text-center">
           <ShoppingBag size={30} className="mx-auto text-muted" />
-
-          <h3 className="mt-5 text-lg font-semibold">
-            No matching products
-          </h3>
-
+          <h3 className="mt-5 text-lg font-semibold">No matching products</h3>
           <p className="mt-2 text-sm text-muted">
             Try changing your filters to discover more products.
           </p>
-
           <button onClick={resetFilters} className="cta mt-5">
             Clear filters
           </button>
@@ -367,16 +392,14 @@ export default function Home() {
       <FilterPanel
         open={Boolean(filtersOpen)}
         onClose={() => setFiltersOpen?.(false)}
-        filters={filters}
+        filters={{ ...filters, category }}
         setFilters={setFilters}
+        setCategory={setCategory}
         categories={categories}
         onReset={resetFilters}
       />
 
-      <ProductQuickView
-        product={selectedProduct}
-        onClose={closeQuickView}
-      />
+      <ProductQuickView product={selectedProduct} onClose={closeQuickView} />
     </div>
   );
 }

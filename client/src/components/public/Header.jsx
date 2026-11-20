@@ -141,13 +141,14 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ShoppingBag, SlidersHorizontal, UserRound } from "lucide-react";
+import { Menu, Search, ShoppingBag, SlidersHorizontal, UserRound, X } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCartCount, toggleCart } from "../../redux/slices/cartSlice";
 
 export default function Header({ onFilterClick }) {
   const [search, setSearch] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const [bump, setBump] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -194,26 +195,32 @@ export default function Header({ onFilterClick }) {
   };
 
   return (
-    <header className="flex md:sticky top-0 z-20 h-16 md:h-14 items-center justify-between gap-6 px-5 sm:px-8 xl:px-10 bg-white backdrop-blur-md border-b border-border">
-      {/* Mobile logo */}
-      <Link to="/" className="flex items-center gap-2 md:hidden shrink-0">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
-          <span className="text-lg font-bold text-white">O</span>
-        </div>
-        <div className="flex flex-col leading-tight">
-          <p className="text-sm font-bold uppercase tracking-wider text-primary">
-            Olison
-          </p>
-          <p className="text-[9px] uppercase tracking-wider text-muted">
-            Super Stores
-          </p>
-        </div>
-      </Link>
+    <header className="flex sticky top-0 z-20 h-16 md:h-14 items-center justify-between gap-6 px-5 sm:px-8 xl:px-10 bg-white backdrop-blur-md border-b border-border">
+      <div className="flex items-center justify-start gap-2">
+        <button className="p-2.25 rounded-full flex md:hidden">
+          <Menu size={16} />
+        </button>
+
+        {/* Mobile logo */}
+        <Link to="/" className="flex items-center gap-2 md:hidden shrink-0">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
+            <span className="text-lg font-bold text-white">O</span>
+          </div>
+          <div className="flex flex-col leading-tight">
+            <p className="text-sm font-bold uppercase tracking-wider text-primary">
+              Olison
+            </p>
+            <p className="text-[9px] uppercase tracking-wider text-muted">
+              Super Stores
+            </p>
+          </div>
+        </Link>
+      </div>
 
       {/* Search — visual anchor */}
       <form
         onSubmit={handleSearch}
-        className="flex h-10 flex-1 items-center overflow-hidden rounded-pill border border-transparent bg-surface-alt transition-colors focus-within:border-primary/40 focus-within:bg-surface md:max-w-md xl:max-w-lg"
+        className={`absolute md:relative left-4 md:left-0 flex h-10 flex-1 items-center overflow-hidden rounded-pill border border-transparent bg-surface-alt transition-colors focus-within:border-primary/40 focus-within:bg-surface md:max-w-md xl:max-w-lg md:mr-auto ${searchOpen ? "w-auto max-w-xl mr-auto" : "w-0"}`}
       >
         <Search size={16} className="ml-4 shrink-0 text-muted" />
         <input
@@ -223,14 +230,14 @@ export default function Header({ onFilterClick }) {
           placeholder="Search products…"
           className="h-full flex-1 bg-transparent px-3 text-sm text-text outline-none placeholder:text-muted"
         />
-        <kbd className="mr-3 hidden rounded-md border border-border bg-surface px-1.5 py-0.5 text-[10px] font-medium text-muted md:inline">
+        <kbd className="mr-3 hidden rounded-md border border-border bg-surface px-1.5 py-1 text-[10px] font-medium text-muted md:inline-flex items-center">
           ⌘K
         </kbd>
       </form>
 
       {/* Desktop actions */}
-      <div className="hidden items-center gap-1 md:flex">
-        <button
+      <div className="items-center gap-1 flex">
+        {/* <button
           type="button"
           title="Filter"
           onClick={onFilterClick}
@@ -238,6 +245,14 @@ export default function Header({ onFilterClick }) {
           className="flex h-10 w-10 items-center justify-center rounded-full text-text transition hover:bg-surface-alt"
         >
           <SlidersHorizontal size={18} strokeWidth={1.5} />
+        </button> */}
+
+        <button type="button" aria-label="Open Search" onClick={() => {setSearchOpen(prev => !prev)}} className="flex md:hidden items-center justify-center p-2.5 hover:bg-surface-alt text-text transition rounded-full">
+          {!searchOpen ? (
+            <Search size={18} className="shrink-0" strokeWidth={1.5} />
+          ) : (
+            <X size={18} className="shrink-0" />
+          )}
         </button>
 
         <button
@@ -247,7 +262,7 @@ export default function Header({ onFilterClick }) {
           aria-label="Open cart"
           className="relative flex h-10 w-10 items-center justify-center rounded-full text-text transition hover:bg-surface-alt"
         >
-          <ShoppingBag size={19} strokeWidth={1.5} />
+          <ShoppingBag size={19} strokeWidth={1.25} />
           {count > 0 && (
             <span
               className={`absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-pill bg-primary px-1 text-[10px] font-bold tabular-nums text-white ${
@@ -268,26 +283,6 @@ export default function Header({ onFilterClick }) {
           <UserRound size={19} strokeWidth={1.5} />
         </Link>
       </div>
-
-      {/* Mobile cart */}
-      <button
-        type="button"
-        title="Cart"
-        onClick={() => dispatch(toggleCart())}
-        aria-label="Open cart"
-        className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-text transition hover:bg-surface-alt md:hidden"
-      >
-        <ShoppingBag size={19} strokeWidth={1.5} />
-        {count > 0 && (
-          <span
-            className={`absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-pill bg-primary px-1 text-[10px] font-bold tabular-nums text-white ${
-              bump ? "animate-[badge-pop_300ms_ease-out]" : ""
-            }`}
-          >
-            {count > 99 ? "99+" : count}
-          </span>
-        )}
-      </button>
     </header>
   );
 }

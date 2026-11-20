@@ -337,9 +337,9 @@ export default function FilterPanel({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border/60 px-5 min-h-14">
           <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-primary/10 text-primary">
+            {/* <span className="grid h-8 w-8 place-items-center rounded-full bg-primary/10 text-primary">
               <SlidersHorizontal size={16} />
-            </span>
+            </span> */}
             <div>
               <h2 className="text-base font-semibold leading-tight font-sans!">Filters</h2>
               <p className="text-[11px] text-muted">

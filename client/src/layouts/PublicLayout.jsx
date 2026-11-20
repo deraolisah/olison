@@ -46,13 +46,13 @@ export default function PublicLayout() {
           onFilterClick={handleFilterClick}
         />
 
-        <BottomNav
+        {/* <BottomNav
           onFilterClick={handleFilterClick}
           onCartClick={handleCartClick}
-        />
+        /> */}
 
         <main className="flex-1 min-w-0 pb-28 md:pb-6">
-          <Outlet context={{ filtersOpen, setFiltersOpen }} />
+          <Outlet context={{ filtersOpen, setFiltersOpen, handleFilterClick }} />
         </main>
       </div>
 

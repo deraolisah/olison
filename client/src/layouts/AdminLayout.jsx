@@ -109,12 +109,14 @@ export default function AdminLayout() {
           >
               <span className="text-white text-2xl font-bold shrink-0">O</span>
             </div>
-            <div className="flex flex-col items-start">
-              <p className="font-bold text-lg text-primary tracking-wider leading-tight uppercase">Olison</p>
-              <p className="text-[9px] tracking-wider text-subtle uppercase">
-                Super Stores
-              </p>
-            </div>
+            {!collapsed && (
+              <div className="flex flex-col items-start">
+                <p className="font-bold text-lg text-primary tracking-wider leading-tight uppercase">Olison</p>
+                <p className="text-[9px] tracking-wider text-subtle uppercase">
+                  Super Stores
+                </p>
+              </div>
+            )}
           </Link>
 
           {/* Mobile close */}
@@ -128,7 +130,7 @@ export default function AdminLayout() {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto px-3 py-5 space-y-6">
+        <nav className="flex-1 overflow-y-auto px-5 py-5 space-y-6">
           {navSections.map((section) => (
             <div key={section.label}>
               {!collapsed && (
@@ -229,7 +231,6 @@ export default function AdminLayout() {
 
           <Link
             to="/"
-            target="_blank"
             className="hidden sm:inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
           >
             <Store size={14} />
