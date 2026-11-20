@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -21,21 +20,12 @@ export default function PublicLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  // useEffect(() => {
-  //   document.body.style.overflowY = filtersOpen ? "hidden" : "auto";
-
-  //   return () => {
-  //     document.body.style.overflowY = "auto";
-  //   };
-  // }, [filtersOpen]);
-
   const closeSidebar = () => setSidebarOpen(false);
 
   const handleFilterClick = () => {
     if (location.pathname !== "/") {
       navigate("/");
     }
-
     dispatch(setCartOpen(false));
     setFiltersOpen(!filtersOpen);
   };
@@ -46,27 +36,23 @@ export default function PublicLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-bg-alt text-text">
       <Sidebar open={sidebarOpen} onClose={closeSidebar} />
 
-      <div className="min-h-screen lg:ml-67.5 flex flex-col bg-bg-alt">
+      {/* Content is offset from the floating sidebar on desktop */}
+      <div className="flex min-h-screen flex-col lg:pl-[268px]">
         <Header
           onMenuClick={() => setSidebarOpen(true)}
           onFilterClick={handleFilterClick}
         />
 
-        <BottomNav 
-          onFilterClick={handleFilterClick} 
+        <BottomNav
+          onFilterClick={handleFilterClick}
           onCartClick={handleCartClick}
         />
 
-        <main className="flex-1 min-w-0">
-          <Outlet
-            context={{
-              filtersOpen,
-              setFiltersOpen,
-            }}
-          />
+        <main className="flex-1 min-w-0 pb-28 md:pb-6">
+          <Outlet context={{ filtersOpen, setFiltersOpen }} />
         </main>
       </div>
 

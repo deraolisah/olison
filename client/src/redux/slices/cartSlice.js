@@ -4,14 +4,33 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: { items: [], isOpen: false },
   reducers: {
+    // addToCart(state, action) {
+    //   const { id, name, price, image, quantity = 1 } = action.payload;
+    //   const existing = state.items.find((i) => i.id === id);
+
+    //   if (existing) {
+    //     existing.quantity += quantity;
+    //   } else {
+    //     state.items.push({ id, name, price, image, quantity });
+    //   }
+    // },
+
     addToCart(state, action) {
-      const { id, name, price, image, quantity = 1 } = action.payload;
+      const p = action.payload;
+      const id = p.id || p._id;
+
+      const image =
+        p.image ||
+        (Array.isArray(p.productImages) ? p.productImages[0] : undefined);
+
+      const quantity = p.quantity ?? 1;
+
       const existing = state.items.find((i) => i.id === id);
 
       if (existing) {
         existing.quantity += quantity;
       } else {
-        state.items.push({ id, name, price, image, quantity });
+        state.items.push({ id, name: p.name, price: p.price, image, quantity });
       }
     },
 

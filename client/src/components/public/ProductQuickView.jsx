@@ -29,6 +29,15 @@ export default function ProductQuickView({
   const [added, setAdded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  // inside component
+  const [activeImage, setActiveImage] = useState(0);
+  const images = Array.isArray(product?.productImages)
+    ? product.productImages.filter(Boolean)
+    : [];
+  const currentImage = images[activeImage];
+
+
+
   const productId = product?.id || product?._id;
   const image = product?.productImage || product?.image;
   const stock = Number(product?.stock) || 0;
@@ -38,6 +47,11 @@ export default function ProductQuickView({
     setQuantity(1);
     setAdded(false);
     setImageError(false);
+  }, [productId]);
+
+  // reset when product changes
+  useEffect(() => {
+    setActiveImage(0);
   }, [productId]);
 
   // Close with Escape and prevent background scrolling.
@@ -86,7 +100,7 @@ export default function ProductQuickView({
         role="dialog"
         aria-modal="true"
         aria-labelledby="quick-view-title"
-        className="relative flex max-h-[90dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl md:flex-row cursor-auto"
+        className="relative flex max-h-[90dvh] md:max-h-[80dvh] w-full max-w-4xl flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl md:flex-row cursor-auto"
       >
         {/* Close button */}
         <button
@@ -99,24 +113,37 @@ export default function ProductQuickView({
         </button>
 
         {/* Product image */}
-        <div className="relative min-h-65 sm:min-h-90 md:min-h-130 md:w-1/2 overflow-hidden! p-1">
-          {product.productImage && !imageError ? (
+        <div className="relative max-h-65 sm:max-h-full md:w-1/2 overflow-hidden! p-1">
+          {currentImage && !imageError ? (
             <img
-              src={product.productImage}
+              src={currentImage}
               alt={product.name || "Product"}
               onError={() => setImageError(true)}
-              className="h-full max-h-[40dvh] w-full object-contain md:object-cover md:absolute "
+              className="w-full h-full  min-h-full w-full object-contain md:object-cover md:absolute rounded-t-3xl md:rounded-l-3xl md:rounded-none"
             />
           ) : (
-            <div className="flex h-full min-h-65 items-center justify-center bg-gray-200 text-muted rounded-t-3xl md:rounded-l-3xl md:rounded-none ">
+            <div className="flex h-full min-h-65 items-center justify-center bg-gray-200 text-muted rounded-t-3xl md:rounded-l-3xl md:rounded-none">
               <Package size={60} strokeWidth={1} />
             </div>
           )}
 
-          {product.featured && (
-            <span className="absolute bottom-4 left-4 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-primary shadow">
-              Featured product
-            </span>
+          {/* Thumbnail strip */}
+          {images.length > 1 && (
+            <div className="absolute bottom-3 left-1/2 z-10 flex max-w-[90%] -translate-x-1/2 gap-2 overflow-x-auto rounded-xl bg-white/60 p-1.25 backdrop-blur-md">
+              {images.map((src, i) => (
+                <button
+                  key={`${src}-${i}`}
+                  type="button"
+                  onClick={() => setActiveImage(i)}
+                  aria-label={`Show image ${i + 1}`}
+                  className={`h-12 w-12 shrink-0 overflow-hidden rounded-lg border-2 transition ${
+                    i === activeImage ? "border-primary" : "border-transparent opacity-70"
+                  }`}
+                >
+                  <img src={src} alt="" className="h-full w-full object-cover" />
+                </button>
+              ))}
+            </div>
           )}
         </div>
 

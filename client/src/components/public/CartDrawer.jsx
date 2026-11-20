@@ -43,6 +43,9 @@ const CartDrawer = () => {
       >
         <div className="flex items-center justify-between px-5 h-14 border-b border-primary/10">
           <h3 className="text-xl font-semibold"> Cart </h3>
+          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">
+            {items.length} {items.length === 1 ? "item" : "items"}
+          </p>
           <button
             // onClick={() => dispatch(toggleCart())}
             onClick={() => dispatch(setCartOpen(false))}
@@ -56,7 +59,11 @@ const CartDrawer = () => {
 
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {items.length === 0 && (
-            <p className="text-center text-text/50 my-16">Cart is empty</p>
+            <div className="flex flex-col items-center gap-1 my-16">
+              {/* <p className="text-center text-text/50">Cart is empty</p> */}
+              <p className="text-sm font-semibold text-text">Your cart is empty</p>
+              <p className="mt-1 text-xs text-muted">Add products to get started.</p>
+            </div>
           )}
           {items.map((i) => (
             <div key={i.id} className="flex gap-3 items-start">

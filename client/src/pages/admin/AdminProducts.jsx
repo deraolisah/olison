@@ -178,7 +178,7 @@ export default function AdminProducts() {
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <img
-                          src={p.productImage || p.image}
+                          src={p.productImages?.[0] || "/img/placeholder.png"}
                           alt=""
                           className="h-11 w-11 rounded-lg bg-gray-100 object-cover"
                           onError={(e) => {
@@ -186,11 +186,14 @@ export default function AdminProducts() {
                           }}
                         />
                         <div className="min-w-0">
-                          <p className="truncate font-medium text-gray-900">
-                            {p.name}
-                          </p>
+                          <p className="truncate font-medium text-gray-900">{p.name}</p>
                           <p className="text-xs text-gray-400">
                             #{String(p.id || p._id).slice(0, 6)}
+                            {p.productImages?.length > 1 && (
+                              <span className="ml-1 text-[10px] text-primary">
+                                · {p.productImages.length} imgs
+                              </span>
+                            )}
                           </p>
                         </div>
                       </div>
@@ -253,13 +256,20 @@ export default function AdminProducts() {
               >
                 <div className="relative aspect-square overflow-hidden bg-gray-100">
                   <img
-                    src={p.productImage || p.image}
+                    src={p.productImages?.[0] || "/img/placeholder.png"}
                     alt={p.name}
                     className="h-full w-full object-cover transition group-hover:scale-105"
                     onError={(e) => {
                       e.currentTarget.src = "/img/placeholder.png";
                     }}
                   />
+
+                  {/* image count badge */}
+                  {p.productImages?.length > 1 && (
+                    <span className="absolute right-2 top-2 rounded-full bg-black/60 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                      {p.productImages.length}
+                    </span>
+                  )}
 
                   {/* Featured */}
                   {p.featured && (

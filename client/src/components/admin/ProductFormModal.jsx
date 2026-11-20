@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import {
   createProduct,
   updateProduct,
@@ -15,9 +16,10 @@ const emptyForm = {
   price: "",
   stock: "",
   category: "groceries",
-  productImage: "",
+  productImages: [""],
   description: "",
   featured: false,
+  imageRatio: "square",
 };
 
 export default function ProductFormModal({ product, onClose, onSuccess }) {
@@ -29,26 +31,63 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
 
   useEffect(() => {
     if (product) {
+      const images = Array.isArray(product.productImages)
+        ? product.productImages
+        : product.productImage
+          ? [product.productImage]
+          : [""];
       setForm({
         name: product.name ?? "",
         price: product.price ?? "",
         stock: product.stock ?? "",
         category: product.category ?? "groceries",
-        productImage: product.productImage ?? "",
+        productImages: images.length ? images : [""],
         description: product.description ?? "",
         featured: Boolean(product.featured),
+        imageRatio: product.imageRatio ?? "square",
       });
+    } else {
+      setForm(emptyForm);
     }
   }, [product]);
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
+  const setImage = (index, value) =>
+    setForm((f) => {
+      const next = [...f.productImages];
+      next[index] = value;
+      return { ...f, productImages: next };
+    });
+
+  const addImage = () =>
+    setForm((f) => ({ ...f, productImages: [...f.productImages, ""] }));
+
+  const removeImage = (index) =>
+    setForm((f) => {
+      const next = f.productImages.filter((_, i) => i !== index);
+      return { ...f, productImages: next.length ? next : [""] };
+    });
+
+  const moveImage = (index, dir) =>
+    setForm((f) => {
+      const next = [...f.productImages];
+      const target = index + dir;
+      if (target < 0 || target >= next.length) return f;
+      [next[index], next[target]] = [next[target], next[index]];
+      return { ...f, productImages: next };
+    });
+
   const validate = () => {
     const e = {};
     if (!form.name.trim()) e.name = "Name is required";
     if (!form.price || Number(form.price) <= 0) e.price = "Price must be > 0";
-    if (form.stock === "" || Number(form.stock) < 0) e.stock = "Stock can't be negative";
-    if (!form.productImage.trim()) e.productImage = "Image URL required";
+    if (form.stock === "" || Number(form.stock) < 0)
+      e.stock = "Stock can't be negative";
+
+    const cleaned = form.productImages.map((s) => s.trim()).filter(Boolean);
+    if (cleaned.length === 0) e.productImages = "At least one image URL required";
+
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -62,11 +101,14 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
       ...form,
       price: Number(form.price),
       stock: Number(form.stock),
+      productImages: form.productImages.map((s) => s.trim()).filter(Boolean),
     };
 
     let res;
     if (isEdit) {
-      res = await dispatch(updateProduct({ id: product.id, data: payload }));
+      res = await dispatch(
+        updateProduct({ id: product.id || product._id, data: payload })
+      );
     } else {
       res = await dispatch(createProduct(payload));
     }
@@ -104,7 +146,9 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
             value={form.name}
             onChange={(e) => set("name", e.target.value)}
           />
-          {errors.name && <p className="text-xs text-red-600 mt-1">{errors.name}</p>}
+          {errors.name && (
+            <p className="text-xs text-red-600 mt-1">{errors.name}</p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -116,7 +160,9 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
               value={form.price}
               onChange={(e) => set("price", e.target.value)}
             />
-            {errors.price && <p className="text-xs text-red-600 mt-1">{errors.price}</p>}
+            {errors.price && (
+              <p className="text-xs text-red-600 mt-1">{errors.price}</p>
+            )}
           </div>
           <div>
             <label className="label">Stock *</label>
@@ -126,40 +172,111 @@ export default function ProductFormModal({ product, onClose, onSuccess }) {
               value={form.stock}
               onChange={(e) => set("stock", e.target.value)}
             />
-            {errors.stock && <p className="text-xs text-red-600 mt-1">{errors.stock}</p>}
+            {errors.stock && (
+              <p className="text-xs text-red-600 mt-1">{errors.stock}</p>
+            )}
           </div>
         </div>
 
-        <div>
-          <label className="label">Category</label>
-          <select
-            className="input"
-            value={form.category}
-            onChange={(e) => set("category", e.target.value)}
-          >
-            {categories.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="label">Category</label>
+            <select
+              className="input"
+              value={form.category}
+              onChange={(e) => set("category", e.target.value)}
+            >
+              {categories.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="label">Image Ratio</label>
+            <select
+              className="input"
+              value={form.imageRatio}
+              onChange={(e) => set("imageRatio", e.target.value)}
+            >
+              <option value="square">Square (1:1)</option>
+              <option value="portrait">Portrait (4:5)</option>
+              <option value="landscape">Landscape (5:4)</option>
+            </select>
+          </div>
         </div>
 
+        {/* Multi-image manager */}
         <div>
-          <label className="label">Image URL *</label>
-          <input
-            className="input"
-            placeholder="/img/dept/drinks.jpg"
-            value={form.productImage}
-            onChange={(e) => set("productImage", e.target.value)}
-          />
-          {errors.productImage && <p className="text-xs text-red-600 mt-1">{errors.productImage}</p>}
-          {form.productImage && (
-            <img
-              src={form.productImage}
-              alt="preview"
-              className="mt-2 w-24 h-24 object-cover rounded-lg border"
-              onError={(e) => (e.target.style.display = "none")}
-            />
+          <div className="flex items-center justify-between mb-2">
+            <label className="label mb-0">Product Images *</label>
+            <button
+              type="button"
+              onClick={addImage}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+            >
+              <Plus size={13} /> Add image
+            </button>
+          </div>
+
+          <div className="space-y-2">
+            {form.productImages.map((url, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <span className="w-6 text-center text-xs text-gray-400">
+                  {i + 1}
+                </span>
+
+                {url.trim() && (
+                  <img
+                    src={url}
+                    alt=""
+                    className="h-10 w-10 rounded object-cover bg-gray-100 border"
+                    onError={(e) => (e.currentTarget.style.visibility = "hidden")}
+                  />
+                )}
+
+                <input
+                  className="input flex-1"
+                  placeholder="/img/dept/drinks.jpg"
+                  value={url}
+                  onChange={(e) => setImage(i, e.target.value)}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => moveImage(i, -1)}
+                  disabled={i === 0}
+                  className="p-1.5 text-gray-400 hover:text-text disabled:opacity-30"
+                  aria-label="Move up"
+                >
+                  <ArrowUp size={14} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => moveImage(i, 1)}
+                  disabled={i === form.productImages.length - 1}
+                  className="p-1.5 text-gray-400 hover:text-text disabled:opacity-30"
+                  aria-label="Move down"
+                >
+                  <ArrowDown size={14} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => removeImage(i)}
+                  className="p-1.5 text-gray-400 hover:text-red-600"
+                  aria-label="Remove image"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {errors.productImages && (
+            <p className="text-xs text-red-600 mt-1">{errors.productImages}</p>
           )}
+          <p className="text-[11px] text-gray-400 mt-1">
+            First image is the cover shown in grids. Swipe order = row order.
+          </p>
         </div>
 
         <div>
