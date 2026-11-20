@@ -40,7 +40,7 @@ export default function PublicLayout() {
       <Sidebar open={sidebarOpen} onClose={closeSidebar} />
 
       {/* Content is offset from the floating sidebar on desktop */}
-      <div className="flex min-h-screen flex-col lg:pl-[268px]">
+      <div className="flex min-h-screen flex-col lg:pl-67">
         <Header
           onMenuClick={() => setSidebarOpen(true)}
           onFilterClick={handleFilterClick}

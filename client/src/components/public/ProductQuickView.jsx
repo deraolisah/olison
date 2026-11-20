@@ -119,7 +119,7 @@ export default function ProductQuickView({
               src={currentImage}
               alt={product.name || "Product"}
               onError={() => setImageError(true)}
-              className="w-full h-full  min-h-full w-full object-contain md:object-cover md:absolute rounded-t-3xl md:rounded-l-3xl md:rounded-none"
+              className="w-full h-full min-h-full object-contain md:object-cover md:absolute rounded-t-3xl md:rounded-l-3xl md:rounded-none"
             />
           ) : (
             <div className="flex h-full min-h-65 items-center justify-center bg-gray-200 text-muted rounded-t-3xl md:rounded-l-3xl md:rounded-none">
