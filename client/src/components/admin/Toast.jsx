@@ -1,3 +1,4 @@
+
 export default function Toast({ msg, type = "success" }) {
   const bg = type === "success" ? "bg-green-600" : "bg-red-600";
   return (
