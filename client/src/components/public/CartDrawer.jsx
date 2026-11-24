@@ -21,24 +21,23 @@ const CartDrawer = () => {
         <button
           type="button"
           aria-label="Close Cart"
-          className="absolute z-30 inset-0 bg-black/40 pointer-events-auto"
+          className="absolute z-30 inset-0 bg-black/50 pointer-events-auto"
           // onClick={() => dispatch(toggleCart())}
           onClick={() => dispatch(setCartOpen(false))}
         />
       )}
       <aside
         className={`
-        fixed z-30 left-1/2 -translate-x-1/2 
-        w-full max-w-[90vw] max-h-[88dvh]
-        md:absolute md:left-auto md:right-0 md:top-0
+        fixed z-30 right-0 
+        top-0
         flex flex-col
-        md:h-full md:max-h-full md:w-full md:max-w-md
-        bg-white md:shadow-2xl
-        rounded-4xl rounded-t-3xl md:rounded-none
+        h-full w-full max-w-sm
+        bg-white shadow-2xl
+        rounded-l-3xl md:rounded-none
         transition-transform pointer-events-auto
-                    ${isOpen
-            ? "translate-y-0 md:translate-x-0 bottom-4"
-            : "translate-y-full md:translate-x-full bottom-0"}
+          ${isOpen
+            ? "translate-x-0"
+            : "translate-x-full"}
         `}
       >
         <div className="flex items-center justify-between px-5 h-14 border-b border-primary/10">

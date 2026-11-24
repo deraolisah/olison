@@ -40,7 +40,7 @@ export default function CategoryGrid() {
           {categories.map((c) => (
             <Link
               key={c.slug}
-              to={`/shop?category=${c.slug}`}
+              to={`/?category=${c.slug}`}
               className="flex items-center gap-3 bg-bg-alt text-text rounded-xl overflow-hidden pr-10
                          hover:bg-secondary transition"
             >
@@ -56,7 +56,7 @@ export default function CategoryGrid() {
         </div>
 
         <div className="text-center mt-10">
-          <Link to="/shop" className="cta cta-3">Shop All</Link>
+          <Link to="/" className="cta cta-3">Shop All</Link>
         </div>
       </div>
     </section>

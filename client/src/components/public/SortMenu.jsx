@@ -82,13 +82,12 @@ export default function SortMenu({ sortBy, sortDir, onChange }) {
         aria-haspopup="listbox"
         aria-expanded={open}
         className="
-          group w-full flex items-center gap-2 rounded-full border border-border
-          bg-white px-4 py-2.5 text-xs font-medium text-text
-          shadow-sm transition hover:border-primary/40 hover:shadow
-          focus:outline-none focus:ring-2 focus:ring-primary/30
+          group w-full flex items-center gap-2 mt-2
+          bg-white px-3 py-1.75 text-xs font-medium text-text
+          transition
         "
       >
-        <CurrentIcon size={15} className="text-primary" strokeWidth={2.2} />
+        <CurrentIcon size={15} className="text-primary shrink-0" strokeWidth={2.2} />
         <span className="inline">
           {current.label}
           {directionLabel && (
@@ -97,7 +96,7 @@ export default function SortMenu({ sortBy, sortDir, onChange }) {
         </span>
         <ChevronDown
           size={14}
-          className={`ml-auto transition-transform ${open ? "rotate-180" : ""}`}
+          className={`ml-auto transition-transform shrink-0 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -105,10 +104,11 @@ export default function SortMenu({ sortBy, sortDir, onChange }) {
         <div
           role="listbox"
           className="
-            right-0 z-50 mt-2 w-full origin-top-right
+            top-full right-0 z-50 mt-2 w-full origin-top-right
             rounded-2xl border border-border bg-white p-1.5
             shadow-xl shadow-black/5 animate-[fadeIn_.12s_ease-out]
             flex flex-col gap-1
+            text-nowrap
           "
         >
           {/* <p className="px-3 pt-1.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-muted">

@@ -107,7 +107,7 @@ export default function AdminLogin() {
               className={`input ${
                 fieldErr("email") ? "border-red-400" : ""
               }`}
-              placeholder="admin@olison.com"
+              placeholder="Email Address"
               value={form.email}
               onChange={(e) => onChange("email", e.target.value)}
               onBlur={() => setTouched((t) => ({ ...t, email: true }))}

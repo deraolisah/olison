@@ -1,287 +1,124 @@
-
-// import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import {
-//   Search,
-//   ShoppingBag,
-//   Menu,
-//   UserRound,
-//   SlidersHorizontal
-// } from "lucide-react";
-// import { Link, useSearchParams } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
-// import { selectCartCount, toggleCart } from "../../redux/slices/cartSlice";
-
-// export default function Header({ onMenuClick, onFilterClick }) {
-//   const [search, setSearch] = useState("");
-//   const navigate = useNavigate();
-  
-//   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-
-//   const count = useSelector(selectCartCount);
-//   const dispatch = useDispatch();
-
-
-
-//   const [searchParams, setSearchParams] = useSearchParams();
-//   const urlSearch = searchParams.get("search") || "";
-
-//   // Initialize from URL, and re-sync when URL changes externally
-//   useEffect(() => {
-//     setSearch(urlSearch);
-//   }, [urlSearch]);
-
-
-//   const handleSearch = (e) => {
-//     e.preventDefault();
-//     const query = search.trim();
-//     if (!query) {
-//       searchParams.delete("search");
-//       setSearchParams(searchParams);
-//       navigate("/");
-//       return;
-//     }
-//     searchParams.set("search", query);
-//     setSearchParams(searchParams);
-//   };
-
-//   useEffect(() => {
-//     const t = setTimeout(() => {
-//       if (search.trim()) {
-//         searchParams.set("search", search.trim());
-//       } else {
-//         searchParams.delete("search");
-//       }
-//       setSearchParams(searchParams, { replace: true });
-//     }, 350);
-//     return () => clearTimeout(t);
-//   }, [search]);
-
-
-//   // const handleSearch = (e) => {
-//   //   e.preventDefault();
-
-//   //   const query = search.trim();
-
-//   //   if (!query) return;
-
-//   //   navigate(`/?search=${encodeURIComponent(query)}`);
-//   // };
-
-//   return (
-//     <header className="flex md:sticky top-0 z-20 h-16 md:h-14 items-center justify-between gap-6 px-5 sm:px-8 xl:px-10 bg-white backdrop-blur-md border-b border-border">
-//       <div className="w-full flex items-center justify-between gap-3">
-//         {/* <button onClick={onMenuClick} aria-label="Open navigation" className="p-2 rounded-full bg-gray-200 flex md:hidden">
-//           <Menu size={20} strokeWidth={1.5} />
-//         </button> */}
-
-//         <div className="flex md:hidden items-center gap-2 flex-1">
-//           <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center">
-//             <span className="text-white text-2xl font-bold">O</span>
-//           </div>
-//           <Link to="/" className="flex flex-col items-start">
-//             <p className="font-bold text-lg text-primary tracking-wider leading-tight uppercase">Olison</p>
-//             <p className="text-[9px] tracking-wider text-text uppercase">
-//               Super Stores
-//             </p>
-//           </Link>
-//         </div>
-
-//         <form onSubmit={handleSearch} className="flex items-center md:w-65 xl:w-90 h-10 p-0">
-//           <input
-//             type="search"
-//             value={search}
-//             onChange={(e) => setSearch(e.target.value)}
-//             placeholder="Search products..."
-//             className="hidden md:flex w-full h-full outline-none px-4 font-light text-base text-gray-800 placeholder:text-gray-400 bg-gray-50 border border-gray-300 rounded-l-full focus:border-primary"
-//           />
-
-//           <button type="submit" aria-label="Search products" className="hidden md:flex items-center justify-center h-full px-2.5 md:pr-3.5 bg-gray-100 hover:bg-gray-200 border md:border-l-0! border-gray-300 text-text transition rounded-full md:rounded-l-none">
-//             <Search size={18} className="shrink-0" />
-//           </button>
-
-//           <button type="button" aria-label="Open Search" onClick={() => {}} className="flex md:hidden items-center justify-center h-full px-2.75 bg-gray-100 hover:bg-gray-200 border border-gray-200 text-text transition rounded-full">
-//             <Search size={18} className="shrink-0" />
-//           </button>
-//         </form>
-
-//         <div className="hidden md:flex items-center gap-2">
-//           <button type="button" title="Filter" onClick={onFilterClick} aria-label="Open product filters" className="p-2 hover:bg-gray-200 rounded-full">
-//             <SlidersHorizontal size={18} strokeWidth={1.5} />
-//           </button>
-
-//           <button type="button" title="Cart" onClick={() => {dispatch(toggleCart()); }} aria-label="Open Cart" className="relative p-2 hover:bg-gray-200 rounded-full">
-//               <ShoppingBag size={20} strokeWidth={1.25} />
-//               {count > 0 && (
-//                 <span className="absolute -top-1 -right-1 bg-primary text-white text-xs font-medium w-5 h-5 rounded-full flex items-center justify-center">
-//                 {count}
-//                 </span>
-//               )}
-//           </button>
-
-//           <Link
-//             to="/profile"
-//             title="Account"
-//             aria-label="Customer account"
-//             className="p-2 hover:bg-gray-200 rounded-full"
-//           >
-//             <UserRound size={20} strokeWidth={1.5} />
-//           </Link>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
-
-
-
-
-
-
-
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Menu, Search, ShoppingBag, SlidersHorizontal, UserRound, X } from "lucide-react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import {
+  Menu,
+  Search,
+  ShoppingBag,
+  Heart,
+  X,
+} from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCartCount, toggleCart } from "../../redux/slices/cartSlice";
 
-export default function Header({ onFilterClick }) {
-  const [search, setSearch] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [bump, setBump] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
+export default function Header({ onOpenSearch }) {
   const count = useSelector(selectCartCount);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const urlSearch = searchParams.get("search") || "";
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    setSearch(urlSearch);
-  }, [urlSearch]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Pulse the cart badge whenever the count changes upward
-  useEffect(() => {
-    if (count === 0) return;
-    setBump(true);
-    const t = setTimeout(() => setBump(false), 320);
-    return () => clearTimeout(t);
-  }, [count]);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      if (search.trim()) {
-        searchParams.set("search", search.trim());
-      } else {
-        searchParams.delete("search");
-      }
-      setSearchParams(searchParams, { replace: true });
-    }, 350);
-    return () => clearTimeout(t);
-  }, [search]);
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const query = search.trim();
-    if (!query) {
-      searchParams.delete("search");
-      setSearchParams(searchParams);
-      navigate("/");
-      return;
-    }
-    searchParams.set("search", query);
-    setSearchParams(searchParams);
+  const handleMenuClick = () => {
+    setMenuOpen((prev) => !prev);
   };
 
+  const wishlistCount = 0;
+
   return (
-    <header className="flex sticky top-0 z-20 h-16 md:h-14 items-center justify-between gap-6 px-5 sm:px-8 xl:px-10 bg-white backdrop-blur-md border-b border-border">
-      <div className="flex items-center justify-start gap-2">
-        <button className="p-2.25 rounded-full flex md:hidden">
-          <Menu size={16} />
-        </button>
+    <header className="sticky top-0! z-20 w-full h-14 p-0! border-b border-border bg-white">
+      <div className="container-page h-full flex items-center justify-between">
+        {/* Left: Logo & Mobile Menu */}
+        <div className="flex items-center justify-start gap-2 shrink-0">
+          <button
+            onClick={handleMenuClick}
+            className="p-2 -ml-0.75 rounded-full hover:bg-gray-100 lg:hidden"
+            aria-label="Open Menu"
+          >
+            {menuOpen ? (
+              <X size={18} strokeWidth={1.5} />
+            ) : (
+              <Menu size={18} strokeWidth={1.25} />
+            )}
+          </button>
 
-        {/* Mobile logo */}
-        <Link to="/" className="flex items-center gap-2 md:hidden shrink-0">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
-            <span className="text-lg font-bold text-white">O</span>
-          </div>
-          <div className="flex flex-col leading-tight">
-            <p className="text-sm font-bold uppercase tracking-wider text-primary">
-              Olison
-            </p>
-            <p className="text-[9px] uppercase tracking-wider text-muted">
-              Super Stores
-            </p>
-          </div>
-        </Link>
-      </div>
+          <Link to="/" className="flex items-center gap-2 shrink-0">
+            <div className="flex h-7 w-7 md:h-9 md:w-9 items-center justify-center rounded-xl bg-primary">
+              <span className="text-lg font-bold text-white">O</span>
+            </div>
+            <div className="flex flex-col hidden sm:flex">
+              <p className="text-base font-bold uppercase leading-tight tracking-wider text-primary">
+                Olison
+              </p>
+              <p className="text-[9px] uppercase leading-tight tracking-wide">
+                Super Stores
+              </p>
+            </div>
+          </Link>
+        </div>
 
-      {/* Search — visual anchor */}
-      <form
-        onSubmit={handleSearch}
-        className={`absolute md:relative left-4 md:left-0 flex h-10 flex-1 items-center overflow-hidden rounded-pill border border-transparent bg-surface-alt transition-colors focus-within:border-primary/40 focus-within:bg-surface md:max-w-md xl:max-w-lg md:mr-auto ${searchOpen ? "w-auto max-w-xl mr-auto" : "w-0"}`}
-      >
-        <Search size={16} className="ml-4 shrink-0 text-muted" />
-        <input
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search products…"
-          className="h-full flex-1 bg-transparent px-3 text-sm text-text outline-none placeholder:text-muted"
-        />
-        <kbd className="mr-3 hidden rounded-md border border-border bg-surface px-1.5 py-1 text-[10px] font-medium text-muted md:inline-flex items-center">
-          ⌘K
-        </kbd>
-      </form>
+        {/* Center: Desktop Search Bar (Inspired by screenshot) */}
+        {/* <div className="hidden md:flex flex-1 max-w-xl mx-8">
+          <button
+            onClick={onOpenSearch}
+            className="w-full flex items-center gap-3 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-500 transition-colors text-sm"
+          >
+            <Search size={16} />
+            <span>Search products...</span>
+          </button>
+        </div> */}
 
-      {/* Desktop actions */}
-      <div className="items-center gap-1 flex">
-        {/* <button
-          type="button"
-          title="Filter"
-          onClick={onFilterClick}
-          aria-label="Open product filters"
-          className="flex h-10 w-10 items-center justify-center rounded-full text-text transition hover:bg-surface-alt"
+        {/* Navigation Links (Moved for mobile context) */}
+        <nav
+          className={`absolute top-14 left-0 p-4 flex-col items-start bg-bg hidden md:relative md:flex md:top-auto md:left-auto md:flex-row md:items-center md:p-0 md:bg-transparent gap-8 text-sm font-medium text-text/80 ${
+            menuOpen ? "flex!" : "hidden"
+          }`}
         >
-          <SlidersHorizontal size={18} strokeWidth={1.5} />
-        </button> */}
+          <Link to="/" className="hover:text-primary transition-colors">
+            Shop
+          </Link>
+          <Link to="/about" className="hover:text-primary transition-colors">
+            About
+          </Link>
+          <Link to="/contact" className="hover:text-primary transition-colors">
+            Contact
+          </Link>
+        </nav>
 
-        <button type="button" aria-label="Open Search" onClick={() => {setSearchOpen(prev => !prev)}} className="flex md:hidden items-center justify-center p-2.5 hover:bg-surface-alt text-text transition rounded-full">
-          {!searchOpen ? (
-            <Search size={18} className="shrink-0" strokeWidth={1.5} />
-          ) : (
-            <X size={18} className="shrink-0" />
-          )}
-        </button>
+        {/* Right: Actions */}
+        <div className="flex items-center justify-end gap-1 shrink-0">
+          {/* Mobile Search Button */}
+          <button
+            onClick={onOpenSearch}
+            className="flex h-10 w-10 items-center justify-center rounded-full text-text hover:bg-gray-100 transition-colors"
+            aria-label="Search"
+          >
+            <Search size={18} strokeWidth={1.25} />
+          </button>
+          
 
-        <button
-          type="button"
-          title="Cart"
-          onClick={() => dispatch(toggleCart())}
-          aria-label="Open cart"
-          className="relative flex h-10 w-10 items-center justify-center rounded-full text-text transition hover:bg-surface-alt"
-        >
-          <ShoppingBag size={19} strokeWidth={1.25} />
-          {count > 0 && (
-            <span
-              className={`absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-pill bg-primary px-1 text-[10px] font-bold tabular-nums text-white ${
-                bump ? "animate-[badge-pop_300ms_ease-out]" : ""
-              }`}
-            >
-              {count > 99 ? "99+" : count}
-            </span>
-          )}
-        </button>
+          <Link
+            to="/wishlist"
+            className="relative hidden sm:flex h-10 w-10 items-center justify-center rounded-full text-text hover:bg-gray-100 transition-colors"
+          >
+            <Heart size={18} strokeWidth={1.25} />
+            {wishlistCount > 0 && (
+              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-bold text-white">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
 
-        <Link
-          to="/profile"
-          title="Account"
-          aria-label="Customer account"
-          className="flex h-10 w-10 items-center justify-center rounded-full text-text transition hover:bg-surface-alt"
-        >
-          <UserRound size={19} strokeWidth={1.5} />
-        </Link>
+          <button
+            onClick={() => dispatch(toggleCart())}
+            className="relative flex h-10 w-10 items-center justify-center rounded-full text-text hover:bg-gray-100 transition-colors"
+          >
+            <ShoppingBag size={18} strokeWidth={1.25} />
+            {count > 0 && (
+              <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[9px] font-bold text-white">
+                {count > 99 ? "99+" : count}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </header>
   );

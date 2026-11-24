@@ -91,7 +91,12 @@ export default function About() {
             basis, selling groceries, provisions, drinks & wines, cosmetics,
             baby/dairy products, and an assortment of household items…
           </p>
-          <div className="w-full max-w-200 h-55 bg-black/5 rounded-xl mx-auto mt-8" />
+          <div className="w-full max-w-200 h-56 bg-black/5 rounded-xl mx-auto mt-8" style={{
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundImage: "url(https://images.unsplash.com/photo-1641440616173-7241e6fe6be9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D)",
+          }} />
         </div>
       </section>
 

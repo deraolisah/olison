@@ -186,7 +186,7 @@
   /* PAGE CONTAINER */
 
   .container-page {
-    @apply w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-10;
+    @apply w-full max-w-[1680px] mx-auto px-4;
   }
 
 
@@ -424,4 +424,36 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-4px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+
+
+/* Dual range slider thumbs */
+.range-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: #000;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.range-thumb::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.range-thumb::-moz-range-thumb {
+  pointer-events: auto;
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: #000;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
