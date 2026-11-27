@@ -11,19 +11,25 @@ export default function Contact() {
           <div className="card">
             <h3 className="text-xl mb-2">Head Office</h3>
             <p className="text-sm text-text/70">
-              No. 38 Mbonu Street, D-line,<br />
-              Port-Harcourt. Rivers State. Nigeria.
+              No. 38 Mbonu Street, D-line, Port-Harcourt. <br/>
+              Rivers State. Nigeria.
             </p>
           </div>
           <div className="card">
             <h3 className="text-xl mb-2">Branch Office</h3>
             <p className="text-sm text-text/70">
-              Ada-George Road, by Gateway Junction,<br />
-              Elioparanwa, Port-Harcourt.
+              {/* No 48 Ada-George Road, by Gateway Junction,<br />
+              Elioparanwa, Port-Harcourt. */}
+
+              No 43 Ada-George Road, Rumuafrikom, Port Harcourt, <br/> near the Gateway Junction / Elioparanwo Road axis.
             </p>
           </div>
           <div className="card">
             <h3 className="text-xl mb-2">Call Us</h3>
+            <a href="tel:0803312620" className="text-primary font-semibold">
+              0803 312 620
+            </a>
+            <b className="text-xl -mt-2"> | </b>
             <a href="tel:0803312620" className="text-primary font-semibold">
               0803 312 620
             </a>
@@ -34,8 +40,14 @@ export default function Contact() {
               href="mailto:olisonsuperstores@gmail.com"
               className="text-primary font-semibold break-all"
             >
-              olisonsuperstores@gmail.com
+              support@olisonsuperstores.com
             </a>
+            {/* <a
+              href="mailto:olisonsuperstores@gmail.com"
+              className="text-primary font-semibold break-all"
+            >
+              olisonsuperstores@gmail.com
+            </a> */}
           </div>
         </div>
       </div>
