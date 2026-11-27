@@ -122,13 +122,13 @@ export default function FilterSidebar({
 
           {/* Availability Section */}
           <CollapsibleSection title="Availability" defaultOpen={false}>
-            <label className="flex items-center gap-3 text-sm text-gray-700 cursor-pointer mt-2 group">
+            <label className="flex items-center gap-3 text-sm text-gray-700 cursor-pointer mt-2.5 group">
               <div className="relative flex items-center justify-center">
                 <input
                   type="checkbox"
                   checked={filters.inStockOnly}
                   onChange={(e) => update("inStockOnly", e.target.checked)}
-                  className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-gray-200 transition-all checked:border-black checked:bg-black"
+                  className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-gray-200 transition-all checked:border-primary checked:bg-primary"
                 />
                 <Check
                   size={14}
@@ -307,14 +307,14 @@ function CategoryCheckbox({ label, checked, onChange, count }) {
       onClick={onChange}
       className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-colors ${
         checked
-          ? "bg-gray-50 text-black font-medium"
+          ? "bg-gray-100 text-black font-medium"
           : "text-gray-600 hover:bg-gray-50"
       }`}
     >
       <span
         className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-all ${
           checked
-            ? "border-black bg-black"
+            ? "border-primary bg-primary"
             : "border-gray-300 bg-white group-hover:border-gray-400"
         }`}
       >
