@@ -338,7 +338,7 @@ function CollapsibleSection({ title, children, defaultOpen = true }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-y border-b-transparent border-gray-200 py-3 pb-2 last:border-b-0">
+    <div className="border-y border-b-transparent border-gray-200 py-3 pb-2 first:border-t-0 last:border-b-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full items-center justify-between py-1 text-left group"
