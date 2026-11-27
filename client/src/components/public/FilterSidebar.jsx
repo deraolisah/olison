@@ -1,7 +1,30 @@
-import { useState } from "react";
-import { X, RotateCcw, ChevronDown, Check } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { X, RotateCcw, ChevronDown, Check,
+  ArrowDownAZ,
+  ArrowUpAZ,
+  ArrowDownWideNarrow,
+  ArrowUpWideNarrow,
+  ArrowDown01,
+  ArrowUp01,
+  Sparkles,
+} from "lucide-react";
+import { SORT_OPTIONS, SORT_DIRECTIONS } from "../../utils/sortUtils";
 
-import SortMenu from "./SortMenu"; // <-- Import SortMenu
+
+const ICONS = {
+  recommended: Sparkles,
+  name: ArrowDownAZ,
+  price: ArrowDown01,
+  date: ArrowDown01,
+  stock: ArrowDown01,
+};
+
+const ICONS_DESC = {
+  name: ArrowUpAZ,
+  price: ArrowUp01,
+  date: ArrowUp01,
+  stock: ArrowUp01,
+};
 
 export default function FilterSidebar({
   open,
@@ -55,7 +78,7 @@ export default function FilterSidebar({
         {/* Scrollable Filters Area */}
         <div
           data-lenis-prevent
-          className="flex-1 overflow-y-auto px-5.5 py-4 space-y-1 scrollbar-hide"
+          className="flex-1 overflow-y-auto px-5.5 py-4 flex flex-col gap-2 scrollbar-hide"
         >
           {/* Category Section */}
           <CollapsibleSection title="Category" defaultOpen={true}>
@@ -155,6 +178,129 @@ export default function FilterSidebar({
 
 /* --- Helper Components --- */
 
+function SortMenu({ sortBy, sortDir, onChange }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const current = SORT_OPTIONS.find((o) => o.value === sortBy) || SORT_OPTIONS[0];
+  const CurrentIcon =
+    sortDir === "desc" ? ICONS_DESC[current.value] || ICONS[current.value] : ICONS[current.value] || Sparkles;
+
+  const directionLabel =
+    current.group === "default"
+      ? null
+      : SORT_DIRECTIONS[current.value]?.[sortDir];
+
+  const handlePick = (opt) => {
+    if (opt.value === "recommended") {
+      onChange("recommended", "asc");
+      setOpen(false);
+      return;
+    }
+
+    if (opt.value === sortBy) {
+      // Toggle direction on re-click
+      onChange(sortBy, sortDir === "asc" ? "desc" : "asc");
+    } else {
+      onChange(opt.value, "asc");
+    }
+    setOpen(false);
+  };
+
+  return (
+    <div ref={ref} className="relative w-full">
+      {/* <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className="
+          group w-full flex items-center gap-2 mt-2
+          bg-white px-3 py-1.75 text-xs font-medium text-text
+          transition
+        "
+      >
+        <CurrentIcon size={15} className="text-primary shrink-0" strokeWidth={2.2} />
+        <span className="inline">
+          {current.label}
+          {directionLabel && (
+            <span className="ml-1 text-muted">· {directionLabel}</span>
+          )}
+        </span>
+        <ChevronDown
+          size={14}
+          className={`ml-auto transition-transform shrink-0 ${open ? "rotate-180" : ""}`}
+        />
+      </button> */}
+
+      {/* {open && ( */}
+        <div
+          role="listbox"
+          className="
+            top-full right-0 z-50 mt-2 w-full origin-top-right
+            animate-[fadeIn_.12s_ease-out]
+            flex flex-col gap-1
+            text-nowrap
+          "
+        >
+          {/* <p className="px-3 pt-1.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-muted">
+            Sort by
+          </p> */}
+
+          {SORT_OPTIONS.map((opt) => {
+            const Icon = ICONS[opt.value] || Sparkles;
+            const isActive = opt.value === sortBy;
+            const isToggleable = opt.group !== "default";
+
+            return (
+              <button
+                key={opt.value}
+                role="option"
+                aria-selected={isActive}
+                onClick={() => handlePick(opt)}
+                className={`
+                  flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm
+                  transition ${isActive
+                    ? "bg-primary/8 text-primary"
+                    : "text-text hover:bg-gray-100"}
+                `}
+              >
+                <Icon size={15} />
+                <span className="flex-1">{opt.label}</span>
+
+                {isToggleable && isActive && (
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-primary/70">
+                    {SORT_DIRECTIONS[opt.value][sortDir]}
+                  </span>
+                )}
+
+                {isActive && <Check size={14} />}
+              </button>
+            );
+          })}
+        </div>
+      {/* )} */}
+    </div>
+  );
+}
+
 function CategoryCheckbox({ label, checked, onChange, count }) {
   return (
     <button
@@ -192,7 +338,7 @@ function CollapsibleSection({ title, children, defaultOpen = true }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-gray-200 py-3 last:border-0">
+    <div className="border-y border-b-transparent border-gray-200 py-3 pb-2 last:border-b-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full items-center justify-between py-1 text-left group"
@@ -244,7 +390,7 @@ function PriceRangeSlider({ min, max, bounds, onChange }) {
   };
 
   return (
-    <div className="mt-3 space-y-4">
+    <div className="mt-2.5 flex flex-col gap-2">
       {/* Dual-range slider */}
       <div className="relative h-6">
         <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 rounded-full bg-gray-200" />
