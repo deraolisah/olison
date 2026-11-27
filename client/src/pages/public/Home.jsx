@@ -280,7 +280,7 @@ export default function Home() {
         setPriceRange={setPriceRange}
       />
 
-      <div className="flex-1 min-w-0 px-4 pb-28 md:pb-6 py-4">
+      <div className="flex-1 min-w-0 px-4 pb-24 md:pb-16 py-4">
         {/* PRODUCT COUNT + ACTIVE FILTERS */}
         <section className="mb-4 flex flex-wrap gap-2 items-center justify-between">
           <div className="flex items-center gap-2">
