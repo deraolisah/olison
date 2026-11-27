@@ -64,7 +64,7 @@ export default function FilterSidebar({
         `}
       >
         {/* Mobile Header */}
-        <div className="h-16 px-6 flex lg:hidden items-center justify-between border-b border-gray-200">
+        <div className="h-14 px-6 flex lg:hidden items-center justify-between border-b border-gray-200">
           <h2 className="text-xl font-serif font-semibold">Filters</h2>
           <button
             onClick={onClose}
@@ -143,7 +143,7 @@ export default function FilterSidebar({
 
 
           {/* Sort Section */}
-          <CollapsibleSection title="Sort By" defaultOpen={true}>
+          <CollapsibleSection title="Sort By" defaultOpen={false}>
             <SortMenu
               sortBy={filters.sort}
               sortDir={filters.sortDir}

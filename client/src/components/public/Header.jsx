@@ -30,7 +30,7 @@ export default function Header({ onOpenSearch }) {
         <div className="flex items-center justify-start gap-2 shrink-0">
           <button
             onClick={handleMenuClick}
-            className="p-2 -ml-0.75 rounded-full hover:bg-gray-100 lg:hidden"
+            className="p-2 -ml-0.75 rounded-full hover:bg-gray-100 md:hidden"
             aria-label="Open Menu"
           >
             {menuOpen ? (
@@ -44,7 +44,7 @@ export default function Header({ onOpenSearch }) {
             <div className="flex h-7 w-7 md:h-9 md:w-9 items-center justify-center rounded-xl bg-primary">
               <span className="text-lg font-bold text-white">O</span>
             </div>
-            <div className="flex flex-col hidden sm:flex">
+            <div className="flex flex-col">
               <p className="text-base font-bold uppercase leading-tight tracking-wider text-primary">
                 Olison
               </p>
@@ -68,7 +68,7 @@ export default function Header({ onOpenSearch }) {
 
         {/* Navigation Links (Moved for mobile context) */}
         <nav
-          className={`absolute top-14 left-0 p-4 flex-col items-start bg-bg hidden md:relative md:flex md:top-auto md:left-auto md:flex-row md:items-center md:p-0 md:bg-transparent gap-8 text-sm font-medium text-text/80 ${
+          className={`absolute top-14 left-0 p-4 w-full flex-col items-start bg-bg hidden md:relative md:w-fit md:mx-auto md:flex md:top-auto md:left-auto md:flex-row md:items-center md:p-0 md:bg-transparent gap-8 text-sm font-medium text-text/80 ${
             menuOpen ? "flex!" : "hidden"
           }`}
         >
